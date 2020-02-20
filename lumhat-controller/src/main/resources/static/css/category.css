@@ -1,0 +1,139 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    font-family: 'Hanuman', sans-serif;
+
+}
+.content-category {
+    background-color: #eee;
+}
+.wrap{
+    -webkit-box-shadow: 0 5px 6px 0 rgba(0,0,0,0.16);
+    -moz-box-shadow: 0 5px 6px 0 rgba(0,0,0,0.16);
+    box-shadow: 0 5px 6px 0 rgba(0,0,0,0.16);
+    background-color: #ffffff;
+    border-radius: 6px;
+}
+.col-sm-6.col-category {
+    border-right: 1px solid #eee;
+    padding:50px;
+    min-height: 600px;
+}
+.col-sm-6.col-button {
+    padding: 50px 50px 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.cate-title{
+    font-size: 35px;
+    color:#40514E;
+    font-weight: bold;
+}
+.mdb-select{
+    width: 330px;
+}
+.cate-sub-title{
+    font-size: 24px;
+    padding-top:10px;
+    font-weight: bold;
+}
+
+.btn-quiz{
+    background-color: #11999E !important;
+    /*width: 104px;*/
+    /*height: 28px;*/
+    /*margin: 10px 10px;*/
+    margin-top: 10px;
+
+    /*margin-right: 10px;*/
+    /*margin-bottom: 5px;*/
+    /*border-radius: 4px;*/
+    font-size: 16px;
+    color: #FFFFFF;
+    /*opacity: 100%;*/
+
+}
+.dropdown-content li>a, .dropdown-content li>span{
+    color: #000000;
+}
+.arrow-right img{
+    width: 50px;
+    margin-top: 50px;
+    padding-right: 10px
+}
+
+.blog-level{
+    /*margin-bottom: 20px;*/
+    padding: 10px;
+}
+.sub-major{
+
+}
+.subject {
+    padding-left: 10px;
+}
+.card-block {
+    margin-left: 40px;
+}
+a.btn.btn-primary.waves-effect.waves-light {
+    background-color: #11999E !important;
+}
+.btn-level{
+    background-color: #11999E !important;
+    padding: 10px;
+}
+#loading {
+    width: 100%;
+    height: 100%;
+    top: 45%;
+    right: 4.5%;
+    position: fixed;
+    display: block;
+    opacity: 0.7;
+    z-index: 99;
+    text-align: center;
+}
+#loading-image {
+    position: absolute;
+    z-index: 100;
+    width: 9%;
+}
+.scrollTop {
+    position: fixed;
+    right: 2%;
+    bottom: 10%;
+    transition: all 0.4s ease-in-out 0s;
+}
+#stop img{
+    width: 35px !important;
+}
+#stop img:hover{
+
+}
+.dropdown .dropdown-menu .dropdown-item {
+    padding: 0!important;
+}
+.card-block .active{
+    background-color: teal;
+}
+a.dropdown-item.waves-effect.waves-light:hover {
+    background-color: #11999E !important;
+}
+@media (max-width: 991px) {
+    .col-sm-6.col-category {
+        border-right: 1px solid #eee;
+        min-height: 0;
+    }
+}
+img.footer-img {
+    background-color: white;
+}
+.text-category{
+    font-size: 14px;
+}
+.lumhat-sentence{
+    font-size:2.35 rem !important;
+}

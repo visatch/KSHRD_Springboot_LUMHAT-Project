@@ -1,0 +1,75 @@
+body{
+    font-family: 'Hanuman', sans-serif;
+}
+.close{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 25%;
+    top: 82px;
+    cursor: pointer;
+    z-index: 20;
+    opacity: 1;
+}
+.pop-up{
+    width:100%;
+    height:100%;
+    background-color:rgba(5,5,5,0.5);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    padding-top: 80px;
+    border-radius: 5px;
+    z-index: 10;
+}
+.frm{
+    height: 245px;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px 0px;
+    margin: 0 auto;
+}
+.img{
+    height: 100px;
+    width: 175px;
+
+}
+
+.btn{
+    margin: 20px 5% !important;
+    width: 90%;
+    background-color: #4B66A0;
+    color: white;
+    padding: 15px 0px;
+    border-radius: 5px;
+    font-size: 16px;
+
+}
+a{
+    color: white;
+}
+a:hover{
+    color: white;
+}
+@media screen and (min-width: 576px) {
+    .close{
+        right: 25%;
+    }
+
+
+}
+@media screen and (max-width: 576px ){
+    .close{
+        right: 1%;
+    }
+}
+
+@media screen and (max-width: 768px ){
+    .close{
+        right: 1%;
+    }
+}
+

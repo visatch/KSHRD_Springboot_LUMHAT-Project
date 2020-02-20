@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/classroom_layout/default_layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{home}">Lumhat Classroom Homepage</title>
+    <link rel="stylesheet" href="/classroom/css/history.css">
+</head>
+
+<body class="hidden-sn grey-skin" id="test">
+    <div  layout:fragment="content">
+
+    <!-- ============================== EDIT CLASS MODAL ============================== -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body clr-modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{edit-class}">Edit Class</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="edi_classname" name="classname"
+                               class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="classname" class="ml-0" th:text="#{class-name}">Class name</label>
+                    </div>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="edit_subject" name="session"
+                               class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="subject" class="ml-0" th:text="#{subject}">Subject</label>
+                    </div>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="edit_room" name="room"
+                               class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="room" class="ml-0" th:text="#{room}">Room</label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                                data-target="#editModalSuccess"><i class="fas fa-file-signature"></i>&nbsp; <span th:text="#{update}">Update</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END EDIT CLASS MODAL ============================== -->
+
+    <!-- ============================== EDIT CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="editModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-updated}">Successfully Updated !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">Ok</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END EDIT CLASS SUCCESS MODAL ============================== -->
+
+
+    <!-- ============================== ARCHIVE CLASS CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="archiveModalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-archive-class}">Are you sure to archive class ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                            data-target="#archiveModalSuccess"><i class="fas fa-inbox"></i>&nbsp; <span th:text="#{archive}">Archive</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS CONFIRM MODAL ============================== -->
+
+
+    <!-- ============================== ARCHIVE CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="archiveModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-archived}">Successfully archived !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">Ok</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS SUCCESS MODAL ============================== -->
+
+    <!-- =================================== Classification Homepage ============================================-->
+    <div class="container">
+
+        <!-- =================================== Teaching card ============================================-->
+        <th:block th:if="${not #lists.isEmpty(allTeacherClass)}">
+            <div class="clr-teaching-text" id="teaching">
+                <span th:text="#{teaching}">TEACHING</span>
+            </div>
+            <div class="row mb-2" id="teaching-card">
+                    <th:block th:each="class : ${allTeacherClass}">
+                        <!-- Teaching Card -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 clr-col-card ">
+                            <div class="card testimonial-card clr-enrolled-card">
+                                <a th:href="@{/classroom/teacher/{classId}(classId = ${class.id})}"><img th:src="${'/image/'+class.imagePath}" onerror="this.src = '/image/favicon-b.png';" class="clr-teaching-card-img clr-p2">
+                                    <div class="card-body card-body-cascade panel-body table-responsive clr-card-body">
+
+                                    <!-- Card Detail -->
+                                    <div class="clr-class-card-resp">
+                                        <table class="table table-condensed f11 table-nowrap clr-table-card">
+                                            <tr>
+                                                <td width="35%"><p class="fs-14" th:text="#{class}"><strong>Class</strong></p></td>
+                                                <td><p><strong>:</strong></p></td>
+                                                <td width="62%"><p class="clr-class-text fs-14" th:text="${class.name}"></p></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p class="fs-14" th:text="#{subject}"><strong>Subject</strong></p></td>
+                                                <td><p><strong>:</strong></p></td>
+                                                <td><p class="clr-class-text fs-14" th:text="${class.subject}">English</p></td>
+                                            </tr>
+                                            <tr>
+                                                <td><p class="fs-14 w-66" th:text="#{number-of-student}"><strong>Student</strong></p></td>
+                                                <td><p><strong>:</strong></p></td>
+                                                <td><p class="clr-class-text fs-14" th:text="${class.totalStudent}">20</p></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                </a>
+                                <!-- End Card Detail -->
+                                <hr>
+
+                                <!--======================== dropdown menu ================-->
+                                <div class="col-12 p-0">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col p-0">
+                                                <p class="clr-card-date fs-14" th:inline="text" >
+                                                    <i class="far fa-calendar-plus mr-2"></i>
+                                                    [[${#dates.format(class.createdDate, 'dd-MMM-yyyy')}]]
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--======================== dropdown menu ================-->
+
+                            </div>
+                        </div>
+                        <!-- End Teaching Card -->
+                    </th:block>
+            </div>
+        </th:block>
+        <!-- =================================== End Teaching card ============================================-->
+        <th:block th:if="${(not #lists.isEmpty(allEnrollClass))&& (not #lists.isEmpty(allTeacherClass))}">
+            <hr>
+        </th:block>
+        <!-- ===================================Enrolled card ============================================-->
+        <th:block th:if="${not #lists.isEmpty(allEnrollClass)}">
+            <div class="clr-teaching-text" id="enrolled">
+                <span th:text="#{enrolled}">ENROLLED</span>
+            </div>
+            <div class="row mb-2" id="enrolled-card">
+                    <th:block th:each="class : ${allEnrollClass}">
+                        <!--Enrolled Card -->
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 clr-col-custom clr-col-card ">
+                            <div class="card testimonial-card clr-enrolled-card">
+                                <!-- Background color -->
+                                <div class="card-up clr-enrolled-card">
+                                    <a th:href="@{/classroom/student/{classId}(classId=${class.id})}"><img th:src="${'/image/'+class.imagePath}" onerror="this.src = '/image/favicon-b.png';" class="clr-stu-card-img"></a>
+                                </div>
+                                <a th:href="@{/classroom/student/{classId}(classId=${class.id})}">
+                                    <!-- Profile -->
+                                    <div class="avatar mx-auto white clr-custom-avatar">
+                                        <img th:src="${class.teacherImage}" alt="woman avatar">
+                                    </div>
+                                    <!-- End Profile -->
+                                    <!-- Card Detail -->
+                                    <div class="card-body card-body-cascade text-center clr-text">
+                                        <div class="clr-class-card-resp">
+
+                                            <table class="table table-condensed f11 table-nowrap clr-table-card">
+                                                <tr>
+                                                    <td width="35%"><p class="fs-14" th:text="#{class}"><strong>Class</strong></p></td>
+                                                    <td><p><strong>:</strong></p></td>
+                                                    <td width="62%"><p class="clr-class-text fs-14" th:text="${class.name}">English for Baby</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="fs-14" th:text="#{subject}"><strong>Subject</strong></p></td>
+                                                    <td><p><strong>:</strong></p></td>
+                                                    <td><p class="clr-class-text fs-14" th:text="${class.subject}">English</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><p class="fs-14 w-66" th:text="#{number-of-student}"><strong>Student</strong></p></td>
+                                                    <td><p><strong>:</strong></p></td>
+                                                    <td><p class="clr-class-text fs-14" th:text="${class.totalStudent}">20</p></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!-- End Card Detail-->
+                                    </div>
+                                </a>
+
+                                <hr>
+                                <p class="clr-card-date fs-14" th:inline="text" >
+                                    <i class="far fa-calendar-plus mr-2"></i>
+                                    [[${#dates.format(class.createdDate, 'dd-MMM-yyyy')}]]
+                                </p>
+                            </div>
+                        </div>
+                        <!--Enrolled Card -->
+                    </th:block>
+            </div>
+        </th:block>
+        <!-- ===================================Enrolled card ============================================-->
+    </div>
+    <!-- =================================== End Classification Homepage ============================================-->
+</div>
+</body>
+</html>

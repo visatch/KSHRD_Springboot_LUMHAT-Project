@@ -1,0 +1,53 @@
+
+
+<!--Body-->
+<div class="modal-body clr-modal-body text-center mb-1" th:fragment="createQuiz" xmlns:th="http://www.thymeleaf.org">
+
+    <h5 class="mt-1 mb-2 text-left clr-h5">Create Quiz</h5>
+
+    <div class="md-form clr-form ml-0 mr-0">
+        <input type="text" id="quizTitle" placeholder="Quiz title" name="quizTitle" class="form-control form-control-sm validate ml-0 mb-0">
+        <label id="lbQuizTitle" for="quizTitle" class="ml-0 mt-1 text-danger"></label>
+    </div>
+    <div id="topic" class="mb-4">
+        <div class="md-form clr-form ml-0 mr-0" id="selectTopic">
+            <select class="mdb-select md-form" id="topicQuiz">
+                <optgroup label="">
+                    <th:block th:each="topic : ${topics}">
+                        <option th:value="${topic.id}" th:text="${topic.topic}">No Topic</option>
+                    </th:block>
+                </optgroup>
+                <optgroup label="">
+                    <option value="0">Add Topic</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+    <div class="md-form">
+        <select class="mdb-select md-form" id="selectDuration">
+            <option value="" disabled selected>Choose your duration quiz</option>
+            <option value="10">10 minutes</option>
+            <option value="15">15 minutes</option>
+            <option value="20">20 minutes</option>
+            <option value="30">30 minutes</option>
+        </select>
+    </div>
+    <div class="md-form clr-form ml-0 mr-0">
+        <select class="mdb-select md-form" id="selectExpire">
+            <option value="" disabled selected>Choose Expire Quiz</option>
+            <option value="60">1 hour</option>
+            <option value="120">2 Hour</option>
+            <option value="180">3 Hour</option>
+            <option value="300">5 Hour</option>
+            <option value="430">7 Hour</option>
+            <option value="non_expire">No Expire</option>
+        </select>
+    </div>
+    <div class="text-center mt-4">
+        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+            Cancel</button>
+        <button class="btn clr-btn-ok mt-1" id="btnCreateQuiz" data-toggle="modal" onclick="createQuiz()"
+        ><i class="fas fa-folder-plus"></i>&nbsp;
+            Create</button>
+    </div>
+</div>

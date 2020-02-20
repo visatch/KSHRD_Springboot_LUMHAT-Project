@@ -1,0 +1,74 @@
+<div class="container p-0 mt-4 bg-white" th:fragment="his-tab" xmlns:th="http://www.thymeleaf.org">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table table-responsive-md table-striped min-400" id="history-blog">
+                    <table class="table clr-history-table" id="tbHistory">
+                        <thead>
+                        <tr>
+                            <th class="th-lg" th:text="#{date}">Date</th>
+                            <th class="th-lg" th:text="#{quiz-title}">Quiz</th>
+                            <th class="th-lg" th:text="#{quiz-duration}">Duration</th>
+                            <th class="th-lg" th:text="#{score}">Score</th>
+                            <th th:text="#{status}">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:if="${!allStuHis.isEmpty()}">
+                            <th:block th:each="history : ${allStuHis}">
+                                <tr>
+                                    <td th:text="${#dates.format(history.getRecordDate(),'dd-MMM-yyyy hh:mm:ss')}">10 - 07 - 2019 ~ 10:27 PM</td>
+                                    <td th:text="${history.getQuizTitle()}"></td>
+                                    <td th:if="${history.getDuration()}>60"
+                                        th:text="(${#numbers.formatDecimal((history.getDuration()/60),1,0)})+' min '+ (${#numbers.formatDecimal((history.getDuration()%60),1,0)}) +' sec '"></td>
+                                    <td th:unless="${history.getDuration()}>60"
+                                        th:text="(${history.getDuration()}%60) + ' sec '"></td>
+                                    <td th:text="${history.getScore()+'/'+history.getFullScore()}">0</td>
+                                    <td>
+                                        <span class="clr-student-status clr-submited fs-14" th:if="${history.getStatus()} == 0" th:text="#{submitted}">Submitted</span>
+                                        <span class="clr-student-status clr-miss-color fs-14" th:unless="${history.getStatus()} == 0" th:text="#{missed}">Missed</span>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </th:block>
+                        <th:block th:unless="${!allStuHis.isEmpty()}">
+                            <tr>
+                                <td colspan="5" align="center" class="bg-white" style="padding-top: 20px!important;font-size: 20px" th:text="#{no-history}">No history</td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                 </div>
+                <nav aria-label="Page navigation example slide-pagination" th:if="${paging.totalPages} > 1">
+                    <ul class="pagination pagination-circle pg-teal w-100 d-flex justify-content-center">
+                        <li class="page-item"><a class="page-link" onclick="getStudentHistory(1)" th:text="#{first}">First</a></li>
+                        <li class="page-item">
+                            <a class="page-link" aria-label="Previous" th:onclick="|getStudentHistory('${paging.previousPage}')|">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only" th:text="#{previous}">Previous</span>
+                            </a>
+                        </li>
+                        <li th:each="i: ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                            th:class="${paging.page}==${i} ? 'page-item active': 'page-item' " >
+                            <a class="page-link" th:onclick="|getStudentHistory('${i}')|" th:text="${i}"></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" aria-label="Next" th:onclick="|getStudentHistory('${paging.nextPage}')|">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only" th:text="#{next}">Next</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" th:onclick="|getStudentHistory('${paging.totalPages}')|" th:text="#{last}">Last</a></li>
+                    </ul>
+                </nav>
+                <th:block th:if="${!allStuHis.isEmpty()}">
+                    <div class="text-center btn-btm">
+                        <button type="button" class="mb-3 btn btn-blue-grey waves-effect waves-light" data-toggle="modal"
+                                data-target="#emptyHistoryModal"><i class="fas fa-trash"></i>&nbsp;
+                            <span th:text="#{delete}">លុប​ទាំងអស់</span></button>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+</div>
+
+

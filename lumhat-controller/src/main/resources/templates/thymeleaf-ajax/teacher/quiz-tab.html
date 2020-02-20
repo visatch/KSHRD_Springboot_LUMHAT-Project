@@ -1,0 +1,99 @@
+<div th:fragment="quizTab" xmlns:th="http://www.thymeleaf.org">
+    <div class="dropdown">
+        <button class="clr-btn-dropdown btn btn-md ml-0 mb-3 d-block mt-3 dropdown-toggle"
+                type="button" id="dropdownMenuMenu" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+            <i class="fas fa-plus pr-2"></i> <span th:text="#{create-quiz}">Create</span>
+        </button>
+        <div class="dropdown-menu clr-btn-dropdown-menu" aria-labelledby="dropdownMenuMenu">
+            <button class="dropdown-item clr-btn-dropdown-menu-item" type="button" id="createNewQuiz" onclick="newQuiz()">
+                <span th:text="#{new-quiz}">New Quiz</span></button>
+            <button class="dropdown-item clr-btn-dropdown-menu-item" type="button" data-toggle="modal" onclick="loadAllClass()">
+                <span th:text="#{reuse-quiz}">Reuse Quiz</span></button>
+        </div>
+    </div>
+    <th:block th:if="${!allQuiz.isEmpty()}">
+        <th:block th:each="quiz,iter : ${allQuiz}">
+            <h3 th:if="${iter.index==0}" th:text="${quiz.topic.topic}" class="mt-4"></h3>
+            <hr th:if="${iter.index==0}">
+            <div class="note note-default p-0 mb-1">
+                <div class="container m-0 clr-note-container">
+                    <div class="row mb-2 p-2 pr-3 align-items-center">
+                        <div class="col-7">
+                            <h6><b class="fs-16" th:text="${quiz.title}"></b></h6>
+                            <p class="text-muted mb-0 fs-14" th:text="${#dates.format(quiz.createdDate, 'dd-MMM-yyyy hh:mm:ss')}"><i
+                                    class="fas fa-calendar-alt pr-1"></i></p>
+                        </div>
+                        <div class="col-4 mr-auto ml-auto">
+                            <th:block th:if="${quiz.isDraft==true}">
+                                <h5 class="text-muted mb-0 clr-font-weight-500 clr-draft fs-16" th:text="#{draft}">Draft</h5>
+                            </th:block>
+                            <th:block th:unless="${quiz.isDraft==true}">
+                                <th:block th:if="${quiz.dateExpire.before(#dates.createNow())}">
+                                    <h5 th:value="${#dates.createNow()} " class="text-muted mb-0 clr-font-weight-500 clr-expired fs-16" th:text="#{expired}">Expire</h5>
+                                </th:block>
+                                <th:block th:if="${quiz.dateExpire.after(#dates.createNow())}">
+                                    <h5 class="text-muted mb-0 clr-font-weight-500 clr-assigned fs-16" th:text="#{assigned}">Assigned</h5>
+                                </th:block>
+                            </th:block>
+                        </div>
+
+                        <div class="btn-group dropright">
+                            <th:block th:if="${quiz.isDraft==true}">
+                                <i class="fas fa-ellipsis-v clr-class-i-dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                <div class="dropdown-menu clr-dots-dropdown">
+                                    <a class="dropdown-item clr-dots-dropdown-item"  th:onclick="|editDraftQuiz('${quiz.id}',true)|" th:text="#{edit}">Edit</a>
+                                    <a  th:onclick="|publishDraftQuiz('${quiz.id}')|" class="dropdown-item clr-dots-dropdown-item" th:text="#{publish}">Publish</a>
+                                    <a  th:onclick="|removeQuiz('${quiz.id}')|" class="dropdown-item clr-dots-dropdown-item" th:text="#{remove}">Remove</a>
+                                </div>
+                            </th:block>
+                            <th:block th:unless="${quiz.isDraft==true}">
+                                <i class="fas fa-ellipsis-v clr-class-i-dots" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                <div class="dropdown-menu clr-dots-dropdown">
+                                    <a class="dropdown-item clr-dots-dropdown-item" th:onclick="|previewAssignedQuiz('${quiz.id}',false)|" th:text="#{preview}">Preview</a>
+                                    <a th:onclick="|removeQuiz('${quiz.id}')|" class="dropdown-item clr-dots-dropdown-item" th:text="#{remove}">Remove</a>
+                                </div>
+                            </th:block>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <th:block th:if="!${(iter.index+1)>=iter.size}">
+                <th:block th:if="${allQuiz[iter.index].topic.id!=allQuiz[iter.index+1].topic.id}">
+                    <h3 th:text="${allQuiz[iter.index+1].topic.topic}" class="mt-4"></h3>
+                    <hr>
+                </th:block>
+            </th:block>
+        </th:block>
+    </th:block>
+    <th:block th:unless="${!allQuiz.isEmpty()}">
+        <hr>
+        <h4 class="text-center mt-3" th:text="#{no-quiz}">No Quiz</h4>
+    </th:block>
+    <nav aria-label="Page navigation example slide-pagination" class="position-relative" th:if="${paging.totalPages} > 1">
+        <ul class="pagination pagination-circle pg-teal w-100 d-flex justify-content-center">
+            <li class="page-item"><a class="page-link" onclick="getAllQuiz(1)" th:text="#{first}">First</a></li>
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:onclick="|getAllQuiz('${paging.previousPage}')|">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only" th:text="#{previous}">Previous</span>
+                </a>
+            </li>
+            <li th:each="i: ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                th:class="${paging.page}==${i} ? 'page-item active': 'page-item' " >
+                <a class="page-link" th:onclick="|getAllQuiz('${i}')|" th:text="${i}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" aria-label="Next" th:onclick="|getAllQuiz('${paging.nextPage}')|">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only" th:text="#{next}">Next</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" th:onclick="|getAllQuiz('${paging.totalPages}')|" th:text="#{last}">Last</a></li>
+        </ul>
+    </nav>
+</div>

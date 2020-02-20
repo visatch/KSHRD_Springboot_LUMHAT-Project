@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/sub_layout">
+
+<head>
+   <title>Category</title>
+    <style>
+        img.footer-img{
+            background-color: #EEEEEE;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Start your project here-->
+    <div class="content content-category" layout:fragment="content">
+
+        <!-- Start your project here-->
+        <div class="container">
+            <div class="row" style="height: 50px">
+
+            </div>
+            <div class="wrap category-wrapper">
+                <div class="row">
+                    <div class="col-sm-6 col-category">
+                        <!--Accordion wrapper-->
+                        <div class="accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                            <div class="card" th:each="subMajor :${major.getSubMajors()}" th:object="${subMajor}">
+                                <div class="card-header" role="tab" th:id="'LH'+${subMajor.getId()}">
+                                    <a data-toggle="collapse" data-parent="#accordionEx"  th:href="@{'#LHU'+${subMajor.getId()}}" aria-expanded="true" th:attr="aria-controls= 'LHU'+${subMajor.getId()}">
+                                        <h5 class="mb-0 sub-major" th:text="*{name}+' ▼'" th:id="*{id}">
+                                            Sub-Major
+                                        </h5>
+                                    </a>
+                                </div>
+                                <div th:id="'LHU'+${subMajor.getId()}" class="collapse show" role="tabpanel" th:attr="aria-labelledby= 'LH'+${subMajor.getId()}">
+                                    <div class="card-block">
+                                        <ul class="list-group list-group-flush" th:each="subjects :${subMajor.getSubjects()}" th:object="${subjects}">
+                                            <a th:href="@{/category(major_id=${major.id}, sub_major_id=*{getId()})}">
+                                                <li class="list-group-item list-group-item-action waves-effect subject" th:text="*{getName()}" th:id="*{getId()}" ></li>
+                                            </a>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.Accordion wrapper-->
+                    </div>
+
+                    <!-- Show with Level for IT only-->
+                    <div class="col-sm-6 col-button" th:if="${major.getId()==1} and ${quizzes}!=0 and ${subMajorId}!=null " th:fragment="levelQuiz" id="levels">
+                        <p class="cate-title">Level</p>
+                        <div class="blog-level" th:each="levels:${level}" th:object="${levels}">
+                            <p class="cate-sub-title" th:text="*{getName()}" th:id="*{getId()}">Basic</p>
+                            <a class="btn btn-level" style="color: white;" th:each="quiz : ${quizzes}" th:if="${quiz.getLevel().getId()} == *{getId()}" th:text="'Quiz '+${quiz.getTitle()}" th:href="@{/do-quiz(quiz_id=${quiz.getId()})}" ></a>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- Show with quiz for with Korea only -->
+                    <div class="col-sm-6 col-button" th:if="${major.getId()==3} and ${quizzes}!=0 and ${subMajorId}!=null">
+                    <p class="cate-title">Quiz</p>
+                        <a class="btn btn-level" style="color: white;" th:each="quiz : ${quizzes}"  th:text="'Quiz '+${quiz.getTitle()}" th:href="@{/do-quiz(quiz_id=${quiz.getId()})}" ></a>
+                    </div>
+
+                    <!-- Show with English only -->
+                    <div class="col-sm-6 col-button" th:if="${major.getId()==2} and ${quizzes}!=0 and ${subMajorId}!=null">
+                        <p class="cate-title">English Quiz</p>
+                        <a class="btn btn-level" style="color: white;" th:each="quizEnglish : ${quizzes}" th:object="${quizEnglish}" th:text="*{getTitle()}" th:href="@{/do-quiz(quiz_id=*{getId()})}" ></a>
+                    </div>
+
+                    <!-- Show with Default content -->
+                    <div class="col-sm-6 col-button" th:if="${subMajorId==null}">
+                        <p class="cate-title" th:text="#{title_category}" style="text-align: center;">Practice Quiz | Online Test</p>
+                        <div class="text">
+                            <span th:text="#{cate_content}">offer you a online test exams or quizzes to start with. We provide 3 main majors</span>
+                            <div th:text="#{thankyou}" style="margin-top: 5%; text-align: center;font-weight: bold;"></div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Show with No data -->
+                    <div class="col-sm-6 col-button" th:if="${subMajorId!=null} and ${quizzes}==0 ">
+                        <p class="cate-title">This subject is comming soon</p>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- End wrap -->
+            <div class="row" style="height: 50px">
+
+            </div>
+
+        </div>
+    </div>
+    <!-- End your  project here-->
+
+    <!--<th:block layout:fragment="script">-->
+
+
+    <!--</th:block>-->
+
+
+</body>
+
+
+</html>

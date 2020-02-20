@@ -1,0 +1,197 @@
+body{
+    font-family: 'Hanuman', sans-serif;
+}
+.nav-tabs {
+    background-color: #11999E !important;
+    padding-top: 5px !important;
+    padding-bottom: 0 !important;
+
+}
+
+.nav-tabs .nav-link {
+    color: #fff !important;
+    padding: 10px 40px !important;
+}
+
+/*.md-pills .nav-link {
+    width:150px !important;
+    background-color: #11999E !important;
+    margin: 0px !important;
+    padding: 10px 28px !important;
+    border-radius: 5px;
+    color:white;
+}*/
+.pills-secondary .nav-link.active, .pills-secondary .show > .nav-link, .tabs-secondary {
+    color: white !important;
+    background-color: #11999E !important;
+    font-weight: bold;
+}
+
+.contain-profile {
+    height: 200px;
+    width: 100%;
+    position: relative;
+}
+
+.contain-profile img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+ .profile {
+    height: 160px;
+     width: 160px;
+    position: absolute;
+    bottom: -55px;
+     display: flex;
+     justify-content: center;
+}
+ .profile-pic-container{
+     width: 100%;
+     display: flex;
+     justify-content: center;
+ }
+
+ .profile img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+
+}
+
+.container-fluid {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    margin: auto;
+}
+.tabs-wrapper {
+    margin-top: 120px!important;
+}
+.name{
+    position: absolute;
+    margin-top: 60px;
+    text-align: center;
+    font-size: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #11999E ;
+}
+.container {
+    margin: auto;
+}
+
+h2 {
+    color: #11999E;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+table.table th {
+    size: 16px;
+    padding-left: 20px !important;
+    font-weight: bold;
+}
+
+table.table td {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    size: 16px;
+    padding-left: 20px !important;
+}
+
+table.table thead {
+    height: 20px !important;
+}
+
+.table {
+    margin-top: 10px;
+}
+
+
+.myleft {
+    text-align: left;
+}
+
+.myright {
+    text-align: right;
+}
+
+.bt{
+    font-size: 16px!important;
+}
+
+a.nav-link.waves-light.profile-nav.waves-effect.waves-light:hover {
+    color: #afd3d4 !important;
+}
+
+tbody {
+    border: 1px solid #dee2e6 !important;
+}
+
+tbody th{
+    background-color: #11999E !important;
+    color: white;
+}
+
+.submajor-nav th.text {
+    padding: 10px;
+}
+
+.mdb-select{
+    width: 100%;
+}
+
+#no-record-label{
+    text-align: center;
+    font-size: 40px;
+    padding: 30px;
+}
+
+@media screen and (min-width: 576px) {
+        .nav-tabs .nav-link {
+            padding: 0px !important;
+        }
+    }
+    @media screen and (max-width: 576px ){
+        .nav-tabs .nav-link {
+            color: #fff !important;
+            padding: 10px 10px !important;
+        }
+
+
+    }
+    @media (max-width: 991px){
+        header {
+            margin-bottom: 0px;
+        }
+    }
+    @media (min-width: 991px){
+
+        .nav-tabs .nav-link {
+            padding: 20px 10px !important;
+        }
+        .col-md-3 {
+            max-width: 25%!important;
+        }
+    }
+
+@media (max-width: 768px) {
+    .myleft, .myright {
+        text-align: center;
+    }
+    .text-left, .text-right {
+        text-align: center !important;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        max-width: 35% !important;
+    }
+    .nav-tabs .nav-link {
+        padding: 15px 70px !important;
+    }
+}

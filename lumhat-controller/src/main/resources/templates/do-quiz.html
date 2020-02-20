@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/sub_layout">
+<head>
+    <title>Category</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/do-quiz.css" th:href="@{/css/do-quiz.css}">
+</head>
+
+<body>
+<!-- Start your project here-->
+<div class="content" layout:fragment="content">
+
+    <!-- Start your project here-->
+    <div class="container-fluid">
+        <div class=" container do-quiz-container">
+            <div id="stop" class="scrollTop">
+                <a href="#"><img src="/picture/scrollToTop.png"></a>
+            </div>
+
+            <div class="sub-quiz">
+                <p th:text="'Quiz ' + ${instructions.get(0).getQuiz().getTitle()}"></p>
+            </div>
+
+            <div class="sub-quiz-result">
+                <p id="score">Score: <span id="result-score">20</span>/<span id="full-score">20</span></p>
+                <p id="time-finish-blog">Time: <span id="time-finish"></span></p>
+            </div>
+
+            <div class="do-quiz">
+                <div class="my-container" id="question-container">
+                    <div id="question-blog" th:each="instruction, instructionIndex : ${instructions}">
+                        <div class="instruction-blog">
+                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                            <span th:id="'inst'+${instruction.getId()}" class="instruction" th:utext="${instruction.getTitle()}"></span>
+                        </div>
+                        <div id="question-id" class="question"
+                             th:each="question, iterstate: ${instruction.getQuestions()}" th:object="${question}">
+
+                            <div class="title-ques">
+                                <p th:utext="${iterstate.index}+1+' .' +*{getTitle()}"></p>
+                            </div>
+                            <div class="form-check " th:each="answer:${question.getAnswers()}" th:object="${answer}">
+                                <input th:attr="is-correct=*{isCorrect()}" class="form-check-input" type="radio"
+                                       th:name="${question.getId()}" th:id="${question.getId()}+'an'+${answer.getId()}">
+                                <label class="form-check-label" th:for="${question.getId()}+'an'+${answer.getId()}"
+                                       th:text="*{getOption()}"></label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center done-blog">
+                <button type="button" id="btn-done" class="btn btn-color" data-toggle="modal" data-target="#modalPush">DONE</button>
+
+                <!--TODO: SHOW THESE BUTTON WHEN FINISH QUIZ-->
+                <a class="btn btn-color" id="btn-quiz" style="color: white; display: none;" th:href="@{/profile}" >Quiz</a>
+                <a class="btn btn-color" id="btn-profile" style="color: white; display: none;" th:href="@{/profile}" >Profile</a>
+                <a class="btn btn-color" id="btn-home" style="color: white; display: none;" th:href="@{/home}" >Home</a>
+
+            </div>
+        </div>
+
+
+        <!--Button bar-->
+        <div id="clock" ​​​ class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6" style="padding-top: 10px">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12 text-right ">
+                            <span><span id="questionActive">0</span> of <span
+                                    id="questionCount">10</span> answers</span>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="progress" style="height: 10px; width: 50% ;margin-top: 7px">
+                                <div class="progress-bar" role="progressbar" style=" height: 10px" aria-valuenow="25"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="row text-center" style="padding-top: 10px;">
+                        <span class="col-md-6 col-sm-8 col-8 text-right" id="timer-blog"><span id="minute">00</span>:<span id="second">00</span></span>
+                        <div class="col-md-6 col-sm-4 col-4 text-left">
+                            <i class="material-icons">access_alarm</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Button bar-->
+
+
+
+    </div>
+
+
+    <!--Modal: Done-->
+    <div class="modal fade " id="modalPush" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <!--Content-->
+            <div class="modal-content text-center">
+                <!--Header-->
+                <div class="modal-header ​​​d-flex justify-content-center text-center​​​​​​​​​​​​​​​"
+                     style="background-color:  #11999E;">
+                    <p class="heading">Alert</p>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <i class="fa fa-check-circle-o fa-4x animated rotateIn mb-4"></i>
+                    <p>Have you done it yet? </p>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer flex-center">
+                    <a type="button" onclick="initDoneQuiz()" class="btn btn-color waves-effect" data-dismiss="modal"
+                       style="color: white;">YES</a>
+                    <a href="#" class="btn btn-color waves-effect btn-danger" data-dismiss="modal">NO</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- END Modal: Done-->
+
+
+    <!-- Start Modal Info -->
+    <div class="modal fade" id="centralModalInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop='false'>
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Let's Start the Quiz</p>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fa fa-clock-o fa-4x mb-3 animated rotateIn"></i>
+                        <p>You have <span th:text="${instructions.get(0).getQuiz().getDuration()}/60"></span> Minutes
+                        </p>
+                    </div>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" onclick="initTimer()" class="btn btn-outline-primary waves-effect"
+                       data-dismiss="modal">Start</a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Start Modal Info-->
+
+    <!-- Time up Modal Warning -->
+    <div class="modal fade" id="time-up-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop='false'>
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Time up</p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+                        <p>Please check your result!</p>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" onclick="initDoneQuiz()" class="btn btn-warning"
+                       data-dismiss="modal">Continue</i></a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Time up Modal Warning -->
+
+    <!-- End your project here-->
+</div>
+<th:block layout:fragment="script">
+    <!--import your script here-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Binding Java
+        var duration = /*[[${instructions.get(0).getQuiz().getDuration()}]]*/ '';
+        var quizId = /*[[${instructions.get(0).getQuiz().getId()}]]*/ '';
+        var userId = /*[[${userId}]]*/ '';
+
+        /*]]>*/
+        /*]]>*/
+    </script>
+    <!-- BlockUI Jquery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <script src="/js/do-quiz/progress-bar.js"></script>
+    <script th:inline="javascript" src="/js/do-quiz/quiz-timer.js"></script>
+    <script src="/js/do-quiz/correct-answer.js"></script>
+
+</th:block>
+
+</body>
+</html>

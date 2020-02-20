@@ -1,0 +1,194 @@
+body{
+    font-family: 'Hanuman', sans-serif;
+}
+
+.sub-quiz p{
+   font-size: 36px;
+   text-transform: uppercase;
+   color: #11999E;
+    margin-top: 30px;
+}
+
+.sub-quiz-result{
+    font-size: 36px;
+    text-transform: uppercase;
+    color: #11999E;
+    margin-top: 30px;
+    text-align: center;
+}
+
+#score{
+
+}
+
+#time-finish-blog{
+    font-size: 16px;
+    text-transform: lowercase;
+}
+
+.do-quiz{
+   border: 1px solid #11999E;
+    
+}
+.my-container{
+    margin:5%;
+    margin-bottom: 2%;
+}
+.title-ques{
+    size: 24px;
+    color: #11999E;
+}
+.question{
+    margin-bottom: 20px;  
+}
+.btn-color{
+    background-color: #11999E;
+    border-radius:5px;
+    color: white;
+    font-weight: bold;
+    margin: 20px;
+    margin-bottom: 8%;
+}
+#clock{
+    height: 50px;
+    color: #11999E;
+    font-size: 16px;
+    border-top: 1px solid #11999E;
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: #FAFAFA;
+}
+
+.form-check:hover {
+    background: rgb(238, 238, 238);
+    border-radius: 3px;
+}
+.form-check.d-flex.p-2:hover {
+    background: rgba(214, 214, 214, 0.36) !important;
+    border-radius: 3px;
+}
+
+.progress .progress-bar{
+    background-color: #11999E !important;
+}
+
+.progress .progress-bar{
+    width: 0%;
+}
+
+[type=radio]:checked+label:after{
+    border-color: #11999E !important;
+    background-color: #11999E !important;
+}
+.form-check-label{
+    width:100%;
+}
+
+#timer-blog {
+    padding-right: 0;
+    font-size: 18px;
+}
+span#minute {
+    margin-right: 2px;
+}
+span#second {
+    margin-left: 2px;
+}
+
+/*label.form-check-label{*/
+    /*display: inline;*/
+/*}*/
+
+.sub-quiz-result{
+    display: none;
+}
+
+label {
+    cursor: default;
+}
+
+p#skipped {
+    background: #F4E6E8;
+    color:  #F05B24;
+    font-size: 15px;
+    width: 80px;
+    text-align: center;
+    margin-left: 22px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.instruction-blog {
+    padding: 10px 10px;
+    border-left: 4px solid #d8d8d8;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    font-size: 18px;
+}
+
+.instruction-blog:first-child {
+    padding: 10px 10px;
+    border-left: 4px solid #d8d8d8;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+@media (max-width: 991px) {
+    .sub-quiz p {
+        font-size: 20px;
+        text-transform: uppercase;
+        color: #11999E;
+        margin-top: 30px;
+    }
+
+    .col-md-4.col-12.text-right {
+        text-align: left !important;
+    }
+    .do-quiz-container{
+        margin-top: 0px;
+    }
+}
+
+@media(max-width: 480px){
+    .progress{
+        visibility: hidden;
+    }
+    .do-quiz-container{
+        margin-top: 100px;
+    }
+}
+
+#footer-blog{
+    display: none;
+}
+
+.footer-img{
+    display: none;
+}
+
+/*Scroll To Top CSS*/
+.scrollTop {
+    position: fixed;
+    right: 2%;
+    bottom: 10%;
+    transition: all 0.4s ease-in-out 0s;
+}
+#stop img{
+    width: 35px !important;
+}
+.done-blog{
+    margin-bottom:30px;
+}
+.divText{
+    word-wrap: break-word;
+}
+.w-95{
+    width: 95% !important;
+}
+.w-5{
+    width: 5% !important;
+}

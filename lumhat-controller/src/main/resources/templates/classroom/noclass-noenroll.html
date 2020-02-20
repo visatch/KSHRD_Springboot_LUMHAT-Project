@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/classroom_layout/default_layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{home}">Classroom</title>
+    <style>
+        p{
+            font-family: 'Hanuman', sans-serif;
+        }
+    </style>
+</head>
+<body class="hidden-sn grey-skin">
+<div  layout:fragment="content">
+    <div class="container responsive-font-size">
+        <div class="row">
+            <div class="col-md-12 text-center font-weight-bold pt-5 clr-empty-class">
+                <p class="t-3" th:text="#{homepage-content1}">
+                    CLASSROOM is a feature of LUMHAT that aims to simplify creating,
+                </p>
+                <p th:text="#{homepage-content2}">distributing, and grading assignments in a paperless way.</p>
+            </div>
+            <div class="col-md-12 text-center font-weight-bold pt-5 pb-3 clr-empty-class">
+                <span th:text="#{would-you-like-to}">Would you like to</span>
+                <a href="#" data-toggle="modal" data-target="#modalCreate" class="text-default" th:text="#{create}"
+                >create</a
+                >
+                <span th:text="#{or}">or</span>
+                <a href="#" data-toggle="modal" data-target="#modalJoin" class="text-default" th:text="#{join-class}">join</a>
+                <span th:text="#{classroom}">classroom</span>?
+            </div>
+            <div class="col-md-12 text-center font-weight-bold pt-5">
+                <a href="/"><button  type="button" class="btn btn-rounded teal darken-2 text-white" th:text="#{back-to-lumhat}">
+                    Back to LUMHAT
+                </button></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

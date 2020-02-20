@@ -1,0 +1,8 @@
+
+# User-specific stuff
+.idea/*
+lumhat-controller/target/*
+lumhat-repository/target/*
+lumhat-service/target/*
+out/*
+*iml

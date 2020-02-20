@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/admin_layout/default_layout">
+
+<head>
+    <title>Major</title>
+</head>
+
+<body>
+<div class="content-page" layout:fragment="content-page">
+    <div id="loading">
+        <img id="loading-image" src="/picture/loading.gif" alt="Loading..." />
+    </div>
+    <form action="/admin/updateRole" method="post">
+    <table class="table" id="tblUser" th:fragment="fgUser">
+        <thead class="thead-dark" >
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}" >
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:each="role:${user.getRoles()}" th:text="${role.getRole()}">
+                <td>
+                    <!--<input  type="button" class="btn btn-success" value="Update" data-toggle="modal" data-target="#basicExampleModal"/>-->
+                    <a th:href="@{/admin/updateRole/{id}(id=${user.getId()})}" onclick="editRole(this)" id="btnEdit" class="btnEdit btn btn-primary btnUpdate" data-toggle="modal" data-target="#basicExampleModal">Edit</a>
+                </td>
+            </tr>
+        </tbody>
+     </table>
+    </form>
+
+
+    <!--Pagination -->
+    <div class="pagination-admin">
+        <nav aria-label="pagination example" th:if="${paging.totalPages}>1">
+            <ul class="pagination pagination-circle justify-content-center">
+
+                <!--First-->
+                <li class="page-item">
+                    <a class="page-link" th:href="@{'?page=1'}" th:data-page="1" th:class="${paging.page}==1?'disabled item page-link':'item page-link'">First</a>
+                </li>
+
+                <!--Arrow left-->
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous" th:href="@{'?page='+${paging.previousPage}}" th:data-page="${paging.previousPage}" th:class="${paging.page}==1?'disabled item page-link':'item page-link'">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                <!--Numbers-->
+                <li class="page-item" th:each="page: ${#numbers.sequence(paging.startPage,paging.endPage)}" th:data-page="${page}" th:class="${page}==${paging.page}?'active page-item':'page-item'">
+                    <a th:href="@{'?page='+${page}}" th:text="${page}" th:class="${page}==${paging.page}?'active page-link':'page-link'">
+                    </a>
+                </li>
+
+
+
+                <!--Arrow right-->
+                <li class="page-item">
+                    <a class="page-link" th:href="@{'?page='+${paging.nextPage}}" th:data-page="${paging.nextPage}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+
+                <!--Last-->
+                <!--<li class="page-item"><a class="page-link">Last</a></li>-->
+
+                <a th:href="@{'?page='+${paging.totalPages}}"
+                   class="page-link" th:data-page="${paging.totalPages}">
+                    <li class="page-item">Last</li>
+                </a>
+
+            </ul>
+        </nav>
+    </div>
+    <!--End pagination-->
+
+    <!-- Modal for add Subject-->
+        <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Please choose new user role</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" id="formUpdate">
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <select class="combobox modal-update form-control" id="cboRole">
+                                    <option value="0" disabled selected>Choose New User Role</option>
+                                    <option value="1">ADMIN</option>
+                                    <option value="2">USER</option>
+                                </select>
+                                <input type="hidden" class="txtId" id="txtId">
+                               </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <!--<input type="button" id="btnUpdate" class="btn btn-primary" value="Update">-->
+                            <input value="Update" class="btn btn-success" type="submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!--End Modal-->
+
+</div>
+<th:block layout:fragment="customScript">
+</th:block>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+.clr-form input{
+  width: 100% !important;
+}
+
+.clr-form-check-label::before{
+  top: 8px !important;
+}
+
+.clr-form label{
+  font-weight: 400 !important;
+}
+
+.clr-btn-red{
+  color: #ffffff !important;
+  background-color: #CC0000;
+}
+
+.clr-btn-ok,
+.clr-btn-red{
+  border-radius: 5px !important;
+  padding: .5rem 1.6rem !important;
+}
+
+.clr-btn-ok{
+  color: #ffffff !important;
+  background-color: #11999E;
+}
+
+.clr-modal-footer{
+  border-top: 0 !important;
+}
+
+.clr-code-modal-header{
+  background-color: #ffffff !important;
+  padding-top: 0 !important;
+  padding-right: 15px !important;
+}
+
+.clr-code-modal-header p{
+  line-height: 1.6 !important;
+}
+
+.clr-code-modal-header p,
+.clr-code-modal-header button{
+  color: #000000 !important;
+}
+
+.clr-code-modal-header{
+  box-shadow: none !important;
+}
+
+.clr-modal-body-crop{
+  padding-top: 0 !important;
+}
+
+.clr-modal-footer{
+  border-top: 0 !important;
+}
+
+.clr-h5{
+  font-weight: 500;
+  color: #000000;
+}
+
+.clr-preview-font h1,
+.clr-preview-font p,
+.clr-preview-font th,
+.clr-preview-font td{
+  font-weight: 400;
+  color: #000000 !important;
+}
+
+.clr-preview-font th{
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+}
+
+.clr-preview-font td{
+  padding-right: 15px !important;
+}

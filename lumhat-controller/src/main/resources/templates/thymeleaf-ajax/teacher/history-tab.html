@@ -1,0 +1,85 @@
+<div class="container p-0 clr-class-container" th:fragment="historyTab" xmlns:th="http://www.thymeleaf.org">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table table-responsive-md table-striped min-400" id="history-blog">
+                <table class="table clr-history-table" id="tbHistory">
+                    <thead>
+                    <tr>
+                        <th class="th-lg clr-teacher" th:text="#{date}">Date</th>
+                        <th class="th-lg clr-teacher" th:text="#{quiz}">Quiz</th>
+                        <th class="th-lg clr-teacher" th:text="#{turned-in}">Turned in</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:if="${!histories.isEmpty()}">
+                        <th:block th:each="history : ${histories}">
+                            <tr>
+                                <td th:text="${#dates.format(history.recordDate, 'dd-MMM-yyyy hh:mm:ss')}"></td>
+                                <td th:text="${history.quizTitle}"></td>
+                                <td th:text="${history.turnIn}"></td>
+                                <td>
+                                    <div class="btn-group dropright">
+                                        <i class="fas fa-ellipsis-v p-2"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false"></i>
+                                        <th:block th:if="${history.turnIn}>0">
+                                            <div class="dropdown-menu clr-dots-dropdown">
+                                                <a class="dropdown-item clr-dots-dropdown-item"
+                                                   data-toggle="modal"
+                                                   th:onclick="|previewListScore('${history.quizId}', '${history.topic}','${history.turnIn}')|" th:text="#{preview}">Preview</a>
+                                                <a class="dropdown-item clr-dots-dropdown-item"
+                                                   th:onclick="|exportReport('${history.quizId}', '${history.topic}')|" th:text="#{export}">Export</a>
+                                            </div>
+                                        </th:block>
+                                        <th:block th:unless="${history.turnIn}>0">
+                                            <div class="dropdown-menu clr-dots-dropdown">
+                                                <a class="dropdown-item clr-dots-dropdown-item disabled" th:text="#{preview}">Preview</a>
+                                                <a class="dropdown-item clr-dots-dropdown-item disabled" th:onclick="|exportReport('${history.quizId}', '${history.topic}')|" th:text="#{export}">Export</a>
+                                            </div>
+                                        </th:block>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${!histories.isEmpty()}">
+                        <tr>
+                            <td colspan="3" align="center" class="bg-white mt-2" style="padding-top: 20px!important;font-size: 20px" th:text="#{no-history}">No history</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation example slide-pagination" class="position-relative" th:if="${paging.totalPages} > 1">
+                <ul class="pagination pagination-circle pg-teal w-100 d-flex justify-content-center">
+                    <li class="page-item"><a class="page-link" onclick="getHistory(1)" th:text="#{first}">First</a></li>
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" th:onclick="|getHistory('${paging.previousPage}')|">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only" th:text="#{previous}">Previous</span>
+                        </a>
+                    </li>
+                    <li th:each="i: ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                        th:class="${paging.page}==${i} ? 'page-item active': 'page-item' " >
+                        <a class="page-link" th:onclick="|getHistory('${i}')|" th:text="${i}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" th:onclick="|getHistory('${paging.nextPage}')|">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only" th:text="#{next}">Next</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" th:onclick="|getHistory('${paging.totalPages}')|" th:text="#{last}">Last</a></li>
+                </ul>
+            </nav>
+            <th:block th:if="${!histories.isEmpty()}">
+                <div class="text-center btn-btm">
+                    <button type="button" class="btn bt btn-blue-grey waves-effect waves-light" data-toggle="modal"
+                            data-target="#emptyHistoryModal"><i class="fas fa-trash"></i>&nbsp; <span th:text="#{delete}">លុប​ទាំងអស់</span></button>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>

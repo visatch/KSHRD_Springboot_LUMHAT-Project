@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/classroom_layout/default_layout.html">
+<head>
+    <title th:text="#{do-quiz}">Do Quiz</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/do-quiz.css" th:href="@{/css/do-quiz.css}">
+    <link rel="stylesheet" href="/css/category.css">
+</head>
+
+<body>
+<!-- Start your project here-->
+<div class="content" layout:fragment="content">
+
+    <!-- Start your project here-->
+    <div class="container-fluid">
+        <div class=" container do-quiz-container">
+            <div id="stop" class="scrollTop">
+                <a href="#"><img src="/picture/scrollToTop.png"></a>
+            </div>
+
+            <div class="sub-quiz">
+                <p><span th:text="#{quiz-title}+' : '"></span><span th:text="${instructions.get(0).getQuiz().getTitle()}"></span></p>
+            </div>
+
+            <div class="sub-quiz-result">
+                <p id="score"><span th:text="#{score}">score</span> : <span id="result-score">20</span>/<span id="full-score">20</span></p>
+                <p id="time-finish-blog">Time: <span id="time-finish"></span></p>
+            </div>
+
+            <div class="do-quiz">
+                <div class="my-container" id="question-container">
+                    <div id="question-blog" th:each="instruction, instructionIndex : ${instructions}">
+                        <div class="instruction-blog">
+                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                            <span th:id="'inst'+${instruction.getId()}" class="instruction divText" th:utext="${instruction.getTitle()}"></span>
+                        </div>
+                        <div id="question-id" class="question"
+                             th:each="question, iterstate: ${instruction.getQuestions()}" th:object="${question}">
+                            <div class="title-ques">
+                                <div class="divText w-95" th:utext="${iterstate.index}+1+' .' +*{getTitle()}"></div>
+                            </div>
+                            <div class="form-check d-flex p-2" th:each="answer:${question.getAnswers()}" th:object="${answer}">
+                                <input th:attr="is-correct=*{isCorrect()}" class="form-check-input" type="radio"
+                                       th:name="${question.getId()}" th:id="${question.getId()}+'an'+${answer.getId()}">
+                                <label class="form-check-label w-100 divText h-auto" th:for="${question.getId()}+'an'+${answer.getId()}">
+                                <div class="divText w-95" th:text="*{getOption()}"></div></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center done-blog">
+                <button type="button" id="btn-done" class="btn btn-color" data-toggle="modal" data-target="#modalPush" th:text="#{done}">DONE</button>
+
+                <!--TODO: SHOW THESE BUTTON WHEN FINISH QUIZ-->
+                <!--<a class="btn btn-color" id="btn-quiz" style="color: white; display: none;" th:href="@{/profile}" >Quiz</a>-->
+                <!--<a class="btn btn-color" id="btn-profile" style="color: white; display: none;" th:href="@{/profile}" >Profile</a>-->
+                <a class="btn btn-color fs-14" id="btn-home" style="color: white; display: none;" th:href="@{'/classroom/student/'+${classId}}" th:text="#{back-to-classroom}">back to classroom</a>
+
+            </div>
+        </div>
+
+
+        <!--Button bar-->
+        <div id="clock" ​​​ class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-6" style="padding-top: 10px">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12 text-right ">
+                            <span><span id="questionActive">0</span> of <span
+                                    id="questionCount">10</span> answers</span>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="progress" style="height: 10px; width: 50% ;margin-top: 7px;background-color: #eee">
+                                <div class="progress-bar" role="progressbar" style=" height: 10px" aria-valuenow="25"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-6">
+                    <div class="row text-center" style="padding-top: 10px;">
+                        <span class="col-md-6 col-sm-8 col-8 text-right" id="timer-blog"><span id="minute">00</span>:<span id="second">00</span></span>
+                        <div class="col-md-6 col-sm-4 col-4 text-left">
+                            <i class="material-icons">access_alarm</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Button bar-->
+
+
+
+    </div>
+
+
+    <!--Modal: Done-->
+    <div class="modal fade " id="modalPush" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <!--Content-->
+            <div class="modal-content text-center">
+                <!--Header-->
+                <div class="modal-header ​​​d-flex justify-content-center text-center​​​​​​​​​​​​​​​"
+                     style="background-color:  #11999E;">
+                    <h5 class="heading" th:text="#{alert}">Alert</h5>
+                </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <i class="fa fa-check-circle-o fa-4x animated rotateIn mb-4"></i>
+                    <h5 th:text="#{done-yet}">Have you done it yet? </h5>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer flex-center">
+                    <button class="btn clr-btn-ok mt-1" onclick="initDoneQuiz()" data-dismiss="modal"><span th:text="#{yes-done}">YES</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><span th:text="#{no}">NO</span></button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- END Modal: Done-->
+
+    <!-- ============================== PROMPT MODAL ============================== -->
+    <div class="modal fade" id="centralModalInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop='false'>
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body text-center mb-1 novalidate">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{let-start-quiz}">Let's Start the Quiz</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <i class="fa fa-clock-o fa-4x mb-3 animated rotateIn"></i>
+                        <h6 class="text-left"><span class="text-danger" th:text="#{rule}">បម្រាម* ៖</span> <span th:text="#{do-quiz-rule}">DO NOT OPEN INSPECT ELEMENT, LEAVE THE TAB OR BROWSER, TAB ON ADDRESS BAR</span></h6>
+                        <h6 class="text-left" th:text="#{do-quiz-case}">IN CASE, YOU DO IT, THE QUIZ WILL BE AUTO SUBMITTED!!!</h6>
+                        <h6><span th:text="#{you-have}">You have</span> <span th:text="${instructions.get(0).getQuiz().getDuration()}/60"></span> Minutes</h6>
+
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <button class="btn clr-btn-ok mt-1" onclick="initTimer()" data-dismiss="modal"><span th:text="#{start-now}">Start</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END PROMPT CLASS MODAL ============================== -->
+
+    <!-- ============================== AUTO SUBMIT MODAL ============================== -->
+    <div class="modal fade" id="modalAutoSubmit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body text-center mb-1 novalidate">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{cheated}">Cheated</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <div class="text-center">
+                            <i class="fa fa-clock-o fa-4x mb-3 animated rotateIn"></i>
+                            <h5 class="mt-1 mb-2 text-center clr-h5 text-danger" th:text="#{you-cheated}">YOU HAD BEEN CHEATED, THE QUIZ IS AUTO SUBMITTED!!!</h5>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" onclick="removeBackDrop()" data-dismiss="modal"><span th:text="#{close}">CLOSE</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END AUTO SUBMIT MODAL ============================== -->
+
+
+    <!-- ============================== Time up Modal Warning ============================== -->
+    <div class="modal fade" id="time-up-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body text-center mb-1 novalidate">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{time-up}">Time up</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <div class="text-center">
+                            <i class="fa fa-check fa-4x mb-3 animated rotateIn text-warning"></i>
+                            <h5 class="mt-1 mb-2 text-center clr-h5" th:text="#{check-result}">Please check your result !</h5>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" onclick="initDoneQuiz()" data-dismiss="modal"><span th:text="#{continue}">Continue</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END Time up Modal Warning ============================== -->
+    <!-- End your project here-->
+    <div id="loading">
+        <img id="loading-image" src="/picture/loading.gif" alt="Loading..." />
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <!--check if browser doesn't support javascript-->
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=/classroom">
+    </noscript>
+    <!--import your script here-->
+    <script>
+        $('#loading').hide();
+        var timer;
+        // Function use to auto submit the QUIZ when user cheats during doing QUIZ
+        function autoSubmitQuiz(){
+            if(isSubmited==false) {
+                if ($("#centralModalInfo").hasClass('show')) {
+                    initTimer();
+                    initDoneQuiz();
+                    calculateFinishTimer();
+                    $("#centralModalInfo").hide();
+                    $("#modalAutoSubmit").modal('show');
+                } else {
+                    initDoneQuiz();
+                    calculateFinishTimer();
+                    $("#modalAutoSubmit").modal('show');
+                }
+            }
+        }
+        $(document).ready(function () {
+
+            function removeBackDrop(){
+                $(".modal-backdrop.fade.show").remove();
+            }
+
+            //Init function autosubmitQuiz when user opens inspect element using shortcut
+            $(window).blur(function () {
+                //autoSubmitQuiz();
+                console.log('blur');
+                timer = setTimeout(function () {
+                    autoSubmitQuiz();
+                },3000);
+
+            });
+
+            //Clear setTimeOut when user focus on browser
+            $(window).focus(function () {
+                clearTimeout(timer);
+            });
+
+            //Init function autosubmitQuiz when user leaves the browser tab
+            $(document).on('visibilitychange',function(){
+                if(document.visibilityState == 'hidden'){
+                    autoSubmitQuiz();
+                }
+            });
+
+            // Disable right click on browser
+            $(document).bind("contextmenu",function(e) {
+                e.preventDefault();
+            });
+
+            // Disable F12 open inspect element on browser
+            $(document).keydown(function(e){
+                if(e.which === 123){
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Binding Java
+        var duration = /*[[${instructions.get(0).getQuiz().getDuration()}]]*/ '';
+        var quizId = /*[[${instructions.get(0).getQuiz().getId()}]]*/ '';
+        var userId = /*[[${userId}]]*/ '';
+        var classId = /*[[${classId}]]*/ '';
+        /*]]>*/
+        /*]]>*/
+    </script>
+    <script src="/js/do-quiz/progress-bar.js"></script>
+    <script th:inline="javascript" src="/js/do-quiz/quiz-timer.js"></script>
+    <script src="/classroom/js/correct-answer.js"></script>
+</th:block>
+</body>
+</html>

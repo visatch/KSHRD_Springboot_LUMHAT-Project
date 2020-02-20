@@ -1,0 +1,42 @@
+.classroom-color{
+    color: #11999E !important;
+}
+
+.classroom-background{
+    background-color: #11999E !important;
+}
+
+.clr-font-weight-color{
+    font-weight: 500!important;
+    color: #343a40;
+}
+
+h4.card-title.clr-font-weight-color {
+    line-height: 1.4;
+}
+
+@media only screen and (max-width:991px)
+{
+    .clr-responsive-image-reverse
+    {
+        display:flex !important;
+        flex-wrap: wrap-reverse !important;
+        flex-direction: row-reverse !important;
+
+    }
+    .clr-image-center
+    {
+        display: flex !important;
+        justify-content: center !important;
+        /* padding-right: 30% !important; */
+    }
+
+}
+
+
+@media (max-width: 740px){
+    .clr-card-view {
+        height: auto !important;
+    }
+}
+

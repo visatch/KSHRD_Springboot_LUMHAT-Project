@@ -1,0 +1,47 @@
+.clr-history-container{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.clr-class-container,
+.clr-history-container{
+  background: #ffffff;
+}
+
+.clr-history-container h4{
+  font-weight: 500 !important;
+}
+
+.clr-h6-filter{
+  line-height: 5.4;
+  padding-right: 15px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.clr-history-table th{
+  font-size: 1rem;
+  font-weight: 500 !important;
+}
+
+
+.clr-history-table th,
+.clr-history-table td{
+  font-weight: 400 !important;
+  /*padding-top: 5px !important;*/
+  padding-bottom: 5px !important;
+}
+
+th.th-lg.clr-th {
+  font-weight: 600 !important;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.h-600{
+    min-height: 400px;
+}

@@ -1,0 +1,79 @@
+<!-- Main navigation -->
+<header th:fragment="sub-header">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light white"  >
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/home}">
+                <img src="/img/logo/lumhat-black.png" height="40" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7" aria-controls="navbarSupportedContent-7"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+                <ul class="navbar-nav ml-auto menu-list">
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/home}"><span th:text="#{home}"></span>
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/classroom}"><span th:text="#{classroom}"></span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/category?major_id=1}"><span th:text="#{it}"></span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/category?major_id=2}"><span th:text="#{english}"></span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/category?major_id=3}"><span th:text="#{korea}"></span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/about}"><span th:text="#{about-us}"></span></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="langkm" ><img src="/img/icons/ic_flag_cambodia.png" height="24px" alt=""></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="langen" ><img src="/img/icons/ic_flag_us.png" height="24px" alt=""></a>
+                    </li>
+                    <div sec:authorize="isAnonymous()">
+                        <li class="nav-item">
+                            <a class="nav-link "  th:href="@{/facebook/signin}" aria-expanded="false" >
+                                <span> <i class="fa fa-user-circle-o pr-1"></i><span th:text="#{signin}"></span></span>
+                            </a>
+                        </li>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <li class="nav-item  dropdown">
+                            <a class="nav-link  dropdown-toggle " id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                ​<span>
+                                  <img style="width: 25px; height: 25px; border-radius: 50%;margin-left: 5px" th:src="'http://graph.facebook.com/__${#authentication.principal.facebookId}__/picture?type=large'"/>
+                                </span>
+                                <span th:text="${#authentication.principal.firstName}"></span>
+                            </a>
+                            <div th:each="rol : ${#authentication.principal.roles}" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu3">
+                                <a class="dropdown-item" th:href="@{/profile}"><i class="fa fa-info-circle pt-0 pb-0 pl-1 pr-2 btn-lg" ></i><span th:text="#{my-information}"></span></a>
+                                <a  th:if="${rol.role}==ADMIN" class="dropdown-item" th:href="@{/admin}" target="_blank"><i  class="fa fa-user-circle-o pt-0 pb-0 pl-1 pr-2 btn-lg" ></i><span th:text="#{admin-account}"></span></a>
+                                <a  class="dropdown-item" th:href="@{/logout}"><i class="fa fa-sign-out pt-0 pb-0 pl-1 pr-2 btn-lg"></i> <span th:text="#{exit}"></span></a>
+                                <!--  <span th:text="${#authentication.principal.roles}"></span>-->
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>
+<!-- Main navigation -->
+

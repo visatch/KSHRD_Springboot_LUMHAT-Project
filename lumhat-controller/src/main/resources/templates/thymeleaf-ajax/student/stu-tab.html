@@ -1,0 +1,30 @@
+
+<div th:fragment="stu-tab" xmlns:th="http://www.thymeleaf.org">
+<div class="list-group-flush pt-4">
+    <th:block th:if="${!allStudent.isEmpty()}">
+        <div id="student">
+            <th:block th:each="student : ${allStudent}">
+                <div class="list-group-item rounded-lg mt-2 p-0">
+                    <div class="row">
+                        <div class="clr-verticle-center d-flex p-2">
+                            <p class="mb-0 inline">
+                                <img th:src="${student.profile}" alt="student's profile"
+                                     class="border rounded-circle clr-student-profile">
+                            </p>
+                            <p th:text="${student.firstName} + ' ' + ${student.lastName}" class="m-0 ml-4 d-flex justify-content-center text-center flex-column"></p>
+                            <th:block  th:if="${student.id}==${you}">
+                                <p class="m-0 ml-1 d-flex justify-content-center text-center flex-column clr-submited">(You)</p>
+                            </th:block>
+
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            </div>
+        </th:block>
+        <th:block th:unless="${!allStudent.isEmpty()}">
+            <h3 class="text-center m-auto">No student</h3>
+        </th:block>
+    </div>
+</div>
+

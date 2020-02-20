@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default_layout">
+
+<head>
+    <title>LUMHAT</title>
+    <link rel="stylesheet" href="/css/lumhat-homepage.css">
+</head>
+
+<body>
+
+<!-- Start your project here-->
+<div class="content" layout:fragment="content">
+    <div class="container">
+        <div>
+            <!-- Section: Features v.2 -->
+            <section class="my-5">
+                <!-- Section heading -->
+                <h2 class="h1-responsive font-weight-bold text-center"><span th:text="#{quiz-test-online}"></span></h2>
+                <!-- Section description -->
+                <p class="lead grey-text text-center w-responsive mx-auto mb-5"><span class="lumhat-sentence" th:text="#{try-now-to-see-how-well-you-can-do}"></span></p>
+
+                <!-- Grid row -->
+                <div class="row">
+                    <!-- Grid column -->
+                    <div class="col-md-4 mb-md-0 mb-5 ">
+                        <!-- Grid row -->
+                        <div class="row">
+                            <!-- Grid column -->
+                            <div class="col-lg-2 col-md-3 col-2">
+                                <img src="/img/ic_monitor.png" height="32px" alt="">
+                            </div>
+                            <!-- Grid column -->
+                            <!-- Grid column -->
+                            <div class="col-lg-10 col-md-9 col-10">
+                                <h4 class="font-weight-bold"><span th:text="#{information-tectnology}"></span></h4>
+                                <p class="grey-text"><span th:text="#{information-technology-content}"></span></p>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+                        <sdiv class="row">
+                            <div class="col-md-12">
+                                <!-- Grid row -->
+                                <div class="row">
+                                    <div class="col-lg-10 col-md-12 text-center col-10">
+                                        <a class="btn btn-primary btn-sm" th:href="@{/category?major_id=1}"><span class="text-category" th:text="#{start-now}"></span></a>
+                                    </div>
+                                    <!-- Grid column -->
+                                </div>
+                                <!-- Grid row -->
+                            </div>
+                        </sdiv>
+                        <!-- Grid row -->
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-4 mb-md-0 mb-5">
+                        <!-- Grid row -->
+                        <div class="row">
+                            <!-- Grid column -->
+                            <div class="col-lg-2 col-md-3 col-2">
+                                <img src="/img/img_english.png" height="32px" alt="">
+                            </div>
+                            <!-- Grid column -->
+                            <!-- Grid column -->
+                            <div class="col-lg-10 col-md-9 col-10">
+                                <h4 class="font-weight-bold"><span th:text="#{english-langugage}"></span></h4>
+                                <p class="grey-text"><span th:text="#{english-content}"></span></p>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Grid row -->
+                                <div class="row">
+                                    <div class="col-lg-10 col-md-12 text-center col-10">
+                                        <a class="btn btn-pink btn-sm" th:href="@{/category?major_id=2}"><span class="text-category" th:text="#{start-now}"></span></a>
+                                    </div>
+                                    <!-- Grid column -->
+                                </div>
+                                <!-- Grid row -->
+                            </div>
+                        </div>
+                        <!-- Grid row -->
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-4">
+                        <!-- Grid row -->
+                        <div class="row">
+                            <!-- Grid column -->
+                            <div class="col-lg-2 col-md-3 col-2">
+                                <img src="/img/img_korea.png" height="32px" alt="">
+                            </div>
+                            <!-- Grid column -->
+                            <!-- Grid column -->
+                            <div class="col-lg-10 col-md-9 col-10">
+                                <h4 class="font-weight-bold"><span th:text="#{korean-language}"></span></h4>
+                                <p class="grey-text"><span th:text="#{korean-content}"></span></p>
+                            </div>
+                            <!-- Grid column -->
+                        </div>
+                        <!-- Grid row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Grid row -->
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 text-center col-10">
+                                        <a class="btn btn-purple btn-sm" th:href="@{/category?major_id=3}"><span class="text-category" th:text="#{start-now}"></span></a>
+                                    </div>
+                                    <!-- Grid column -->
+                                </div>
+                                <!-- Grid row -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+
+
+
+            </section>
+            <!-- Section: Features v.2 -->
+
+            <!-- Section: Feature Classroom-->
+            <section class="lh-clr-section">
+                <div class="mt-5">
+                    <!-- Section: Features v.2 -->
+                    <section class="my-5">
+                        <!-- Section heading -->
+                        <h2 class="h1-responsive clr-font-weight-color text-center" th:text="#{manage-classroom}">គ្រប់គ្រងការបង្រៀនជាមួយមុខងារ ថ្នាក់រៀន</h2>
+                        <!-- Section description -->
+                        <div class="text-center mt-5">
+                            <a th:href="@{/classroom}"><button type="button" class="btn btn-primary btn-rounded​​​​ text-center" style="font-size: 14px" th:text="#{goto-classroom}">ចូលទៅកាន់ថ្នាក់រៀន</button></a>
+                        </div>
+
+                        <!-- ========================our costomization====================== -->
+                        <div class="row mt-5 ">
+                            <div class="col-lg-4 col-md-12 col-12 text-center">
+                                <img src="/img/classroom/laptop-first-lumhathome.jpg" img-fluid height="250px" width="300px"
+                                     class="img-fluid" alt="Responsive image">
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-12 mt-5">
+                                <h4><span th:text="#{title-content1}">ការបង្រៀនកាន់តែមានប្រសិទ្ធភាព និងមានភាពងាយស្រួល</span></h4>
+                                <p class="grey-text">
+                                <span th:text="#{description-content1}">គេហទំព័រ លំហាត់ បានបង្កើតមុខងារ ថ្នាក់រៀន
+                                    ថ្មីមួយដើម្បីជួយសម្រួលដល់ការបង្រៀននិងការដាក់កិច្ចការ
+                                    ឲ្យសិស្ស។ យើងអាចដាក់កិច្ចការងារឲ្យសិស្សធ្វើនៅលើប្រព័ន្ធអីនធើនេតតាមរយៈ
+                                    ថ្នាក់រៀន។​
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row mt-5 clr-responsive-image-reverse">
+                            <div class="col-lg-8 col-md-12 col-12 pt-5">
+                                <h4><span th:text="#{title-content2}">បង្កើនចំណេះដឹងនិងសមត្ថភាពរបស់អ្នកតាមរយៈការធ្វើតេស្ត​អនឡាញ</span></h4>
+                                <p class="grey-text">
+                                <span th:text="#{description-content2 }">គេហទំព័រ លំហាត់ បានបង្កើតមុខងារ ថ្នាក់រៀន
+                                    ថ្មីមួយដើម្បីជួយសម្រួលដល់ការបង្រៀននិងការដាក់កិច្ចការឲ្យសិស្ស។
+                                    ​យើងអាចដាក់កិច្ចការងារឲ្យសិស្សធ្វើនៅលើប្រព័ន្ធអីនធើនេតតាមរយៈ ថ្នាក់រៀន។​
+                                </span>
+                                </p>
+                            </div>
+                            <div class="col-lg-4 col-md-12 col-12 clr-image-center">
+                                <img src="/img/classroom/laptop-second-lumhathome.jpg" height="250px" width="300px"
+                                     class="img-fluid float-right" alt="Responsive image">
+                            </div>
+                        </div>
+                        <div>
+                            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="/img/classroom/laptop-third-lumhathome.jpg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h1 class="text-center" th:text="#{title-content3}">ធ្វើកិច្ចការសាលាតាមរយៈ​ ថ្នាក់រៀន</h1>
+                            </div>
+                        </div>
+                </div>
+                <!-- Last block -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card booking-card">
+                            <div class="clr-card-view">
+                                <img class="card-img-top" src="/img/classroom/laptop-fourth-lumhathome.jpg" alt="Card image cap">
+                                <!--<a href="#">-->
+                                    <div class="mask rgba-white-slight"></div>
+                                <!--</a>-->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title clr-font-weight-color">
+                                <span th:text="#{title-content4}">គ្រប់គ្រងនិងធ្វើផែនការបង្រៀនកាន់តែមានប្រសិទ្ធភាព និងមានភាពងាយស្រួល</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card booking-card">
+                            <div class="clr-card-view">
+                                <img class="card-img-top" src="/img/classroom/laptop-fifth-lumhathome.jpg" alt="Card image cap">
+                                <!--<a href="#!">-->
+                                    <div class="mask rgba-white-slight"></div>
+                                <!--</a>-->
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title clr-font-weight-color">
+                                <span th:text="#{title-content5}">ធ្វើកិច្ចការសាលាបានគ្រប់ទីកន្លែង និងកាលៈទេសៈ</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card booking-card">
+                            <div class="clr-card-view">
+                                <img class="card-img-top" src="/img/classroom/laptop-sixth-lumhathome.jpg" alt="Card image cap">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title clr-font-weight-color">
+                                <span th:text="#{title-content6}">ទទួលបានភាពជោគជ័យនៅក្នុងការសិក្សា</span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- End your project here-->
+<th:block layout:fragment="script">
+
+    <script src="js/home-script/home.js"></script>
+
+</th:block>
+</body>
+</html>

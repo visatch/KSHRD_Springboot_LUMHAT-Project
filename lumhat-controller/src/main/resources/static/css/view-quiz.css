@@ -1,0 +1,80 @@
+body{
+    font-family: 'Hanuman', sans-serif;
+}
+h4{
+    color: #11999E;
+    font-weight: bold;
+    size: 26px;
+    height: 36px;
+    padding: 10px 0px;
+    margin-bottom: 40px;
+}
+.md-form {
+    position: relative;
+    margin-top: 0px !important;
+}
+.group{
+    width: 899px;
+    margin: auto;
+}
+.color-main{
+    background-color: #F5F5F5;
+}
+.pills-orange .nav-link.active, .pills-orange .show>.nav-link, .tabs-orange {
+    background-color: #F5F5F5!important;
+}
+.fa-heart{
+    color: #218057!important;
+}
+.classic-tabs li a.active {
+    border-bottom: 0px solid;
+    font-weight: bold;
+    color: #218057!important;
+    background-color: white;
+    border-radius: 5px 5px 0 0px;
+}
+.classic-tabs li a{
+    color: #218057!important;
+}
+.tabs-wrapper{
+    margin-top: 50px !important;
+}
+h2{
+    color: #11999E;
+    size: 30px;
+    font-weight: bold;
+    margin-bottom: 40px;
+
+}
+.myh4{
+    padding-top: 30px;
+}
+.item{
+    background-color: #1BC4C9;
+    height: 137px;
+    line-height: 10px;
+    margin-bottom: 50px;
+}
+.item a{
+    padding: 20px 0px;
+    color: white;
+}
+.classic-tabs li a{
+    padding: 13px 20px !important;
+    font-size:  16px;
+}
+
+.tab-content{
+    background-color: white !important;
+}
+
+.search-btn{
+    height: 35px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.search-btn i {
+    color: black;
+}

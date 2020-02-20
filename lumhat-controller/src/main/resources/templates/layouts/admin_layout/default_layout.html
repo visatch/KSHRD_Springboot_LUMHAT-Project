@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="../admin-style/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="../admin-style/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="../admin-style/css/fontastic.css">
+    <!-- Google fonts - Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <!-- Custom Scrollbar-->
+    <link rel="stylesheet" href="../admin-style/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="../admin-style/css/style.default.css" id="theme-stylesheet">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="../img/lumhat-black.png" />
+    <!--custom style-->
+    <link rel="stylesheet" href="../admin-style/css/custom.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+</head>
+
+<body>
+<!--Side nav-bar-->
+<nav th:replace="fragments/admin_fragments/header::side-navbar"></nav>
+<!--Page-->
+<div class="page">
+    <header th:replace="fragments/admin_fragments/header::header"></header>
+    <div class="content-page" layout:fragment="content-page"></div>
+    <footer th:replace="fragments/admin_fragments/footer::footer"></footer>
+</div>
+
+<!-- JavaScript files-->
+<script src="../admin-style/vendor/jquery/jquery.min.js"></script>
+<script src="../admin-style/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../admin-style/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="../admin-style/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+<!-- Main File-->
+<script src="../admin-style/js/front.js"></script>
+<script src="../js/admin/adminMajor.js"></script>
+<script src="/js/admin/user.js"></script>
+<!-- SweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<th:block layout:fragment="customScript"></th:block>
+</body>
+
+</html>

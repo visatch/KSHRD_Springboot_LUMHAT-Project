@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/classroom_layout/default_layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{enrolled-class}">Enrolled Class</title>
+</head>
+<body class="hidden-sn grey-skin">
+
+<div  layout:fragment="content">
+    <!-- ============================== TEACHING FORM ============================== -->
+    <div class="container-fluid clr-container-fluid clr-teacher">
+
+        <!-- Class code information -->
+        <div class="row clr-class-code">
+            <div class="col-1 clr-hide"></div>
+
+            <!-- Class card -->
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <!-- Class card image -->
+                <div class="card clr-class-card">
+                    <div class="view overlay clr-class-overlay">
+                        <img class="card-img-top clr-card-img-top" id="class_cover" src="/classroom/images/favicon-b.png" alt="Card class">
+
+                        <div class="btn-group dropleft clr-3dots-mf">
+                            <i class="fas fa-ellipsis-v clr-class-i-dots enter-icon" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false"></i>
+                            <div class="dropdown-menu clr-dots-dropdown">
+                                <a class="dropdown-item clr-dots-dropdown-item" data-toggle="modal" data-target="#leaveModalConfirm">Leave</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="m-0">
+
+                    <div class="card-body clr-class-card-body text-center">
+                        <div class="clr-class-card-resp p-2">
+
+
+                            <div class="row material-tooltip-email" data-toggle="tooltip" data-placement="top" title="Subject">
+                                <div class="col-1 clr-class-icon"><i class="fas fa-book"></i></div>
+                                <div class="col">
+                                    <p class="clr-class-text">English</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1 clr-class-icon material-tooltip-email" data-toggle="tooltip" data-placement="top" title="classname"><i
+                                        class="fas fa-file-alt"></i></div>
+                                <div class="col material-tooltip-email" data-toggle="tooltip" data-placement="top" title="Quiz">
+                                    <p class="clr-class-text">10</p>
+                                </div>
+                            </div>
+
+                            <div class="row material-tooltip-email" data-toggle="tooltip" data-placement="top" title="Student">
+                                <div class="col-1 clr-class-icon"><i class="fas fa-user-graduate"></i></div>
+                                <div class="col">
+                                    <p class="clr-mb-5">20</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Class information -->
+            <div class="col clr-bg-class">
+                <h3>English class</h3>
+            </div>
+        </div>
+
+        <!-- Class tab -->
+        <div class="classic-tabs clr-classic-tabs ">
+
+            <div class="row clr-tabs">
+
+                <div class="col-lg-4 col-md-1 col-sm-0 clr-hide"></div>
+
+                <div class="col">
+                    <ul class="nav tabs-cyan clr-tabs" id="myClassicTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link clr-nav-link waves-light active show" id="student-tab" data-toggle="tab" href="#student-classic"
+                               role="tab" aria-controls="student-classic" aria-selected="false">
+                                <i class="fas fa-user"></i> STUDENT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link clr-nav-link waves-light" id="history-tab" data-toggle="tab" href="#history-classic"
+                               role="tab" aria-controls="history-classic" aria-selected="false">
+                                <i class="fas fa-history"></i> HISTORY</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-1 col-sm-0 clr-hide"></div>
+            </div>
+
+            <div class="row clr-multi-tabs">
+
+                <div class="col-lg-4 col-md-1 col-sm-0 clr-hide"></div>
+
+
+                <!-- Class Tabs -->
+                <div class="col p-0">
+                    <div class="tab-content clr-tab-content pt-0" id="myClassicTabContent">
+
+
+                        <!-- ============================== STUDENT TAB ============================== -->
+                        <div class="tab-pane clr-tab-pane fade active show" id="student-classic" role="tabpanel"
+                             aria-labelledby="classwork-tab">
+                            <div class="list-group-flush pt-2">
+                                <div class="list-group-item rounded-lg mt-2 p-0">
+                                    <div class="row">
+                                        <div class="clr-verticle-center">
+
+                                            <p class="mb-0 inline pl-3">
+                                                <img src="/classroom/images/m1.png" alt="student's profile" class="rounded-circle clr-student-profile">
+                                            </p>
+
+                                            <p class="m-0 ml-3">Manit Jupiter</p>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================== END STUDENT TAB ============================== -->
+                        <!-- ============================== HISTORY TAB ============================== -->
+                        <div class="tab-pane clr-tab-pane fade grey-skin" id="history-classic" role="tabpanel"
+                             aria-labelledby="history-tab">
+                            <div class="container p-0 clr-class-container">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="table table-responsive-md table-striped" id="history-blog">
+                                            <table class="table clr-history-table" id="tbHistory">
+                                                <thead>
+                                                <tr>
+                                                    <th class="th-lg">Date</th>
+                                                    <th class="th-lg">Quiz</th>
+                                                    <th class="th-lg">Class</th>
+                                                    <th class="th-lg">Score</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                <tr>
+                                                    <td>10 - 07 - 2019 ~ 10:27 PM</td>
+                                                    <td>1/10</td>
+
+                                                    <td>23 Second </td>
+                                                    <td>0</td>
+                                                    <td><span class="clr-student-status clr-miss-color">Missed</span></td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                            <div class="clr-pagination col-12 text-center">
+                                                <nav class="clr-nav-pagination">
+                                                    <ul class="pagination pg-blue">
+                                                        <li class="page-item clr-page-item disabled">
+                                                            <span class="page-link clr-page-link">Previous</span>
+                                                        </li>
+                                                        <li class="page-item clr-page-item"><a class="page-link clr-page-link">1</a></li>
+                                                        <li class="page-item clr-page-item active">
+                                <span class="page-link clr-page-link">
+                                  2
+                                  <span class="sr-only">(current)</span>
+                                </span>
+                                                        </li>
+                                                        <li class="page-item clr-page-item"><a class="page-link clr-page-link">3</a></li>
+                                                        <li class="page-item clr-page-item">
+                                                            <a class="page-link clr-page-link">Next</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="button" class="btn bt btn-blue-grey waves-effect waves-light" data-toggle="modal"
+                                                        data-target="#emptyHistoryModal"><i class="fas fa-trash"></i>&nbsp;
+                                                    លុប​ទាំងអស់</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ============================== END HISTORY TAB ============================== -->
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="col-1 clr-hide"></div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ============================== END TEACHING FORM ============================== -->
+
+    <!-- ============================== Leave CLASS CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="leaveModalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4>Are you sure to leave class ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; Cancel</button>
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                            data-target="#leaveModalSuccess"><i class="fas fa-sign-out-alt"></i>&nbsp; Leave</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END Leave CLASS CONFIRM MODAL ============================== -->
+
+    <!-- ============================== Leave CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="leaveModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4>Successfully left !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; OK</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END Leave CLASS SUCCESS MODAL ============================== -->
+
+    <!-- ============================== Remove History CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="emptyHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4>Are you sure to clear all history ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+                        Cancel</button>
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                            id="removeStudentHistory"><i class="fas fa-trash"></i>&nbsp; Remove</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- ============================== End Remove History CONFIRM MODAL ============================== -->
+
+
+    <!-- ============================== Remove SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="removeModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4>Successfully Removed !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp;
+                        OK</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END Remove SUCCESS MODAL ============================== -->
+</div>
+</body>
+</html>

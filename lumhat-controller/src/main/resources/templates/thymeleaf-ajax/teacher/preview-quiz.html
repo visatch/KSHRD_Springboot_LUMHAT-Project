@@ -1,0 +1,34 @@
+<div class="container do-quiz-container"  th:fragment="previewQuiz" xmlns:th="http://www.thymeleaf.org">
+    <div class="sub-quiz" id="quiz-title">
+        <h5>
+            <span th:text="#{quiz-title}"></span>
+            <span id="quizPreviewTitle" th:text="' : '+${quiz.title}"></span>
+        </h5>
+    </div>
+    <div class="do-quiz">
+        <div class="my-container" id="question-container">
+            <div id="question-blog" th:each="instruction, instructionIndex : ${quiz.instructions}">
+                <div class="instruction-blog">
+                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                    <span th:id="'inst'+${instruction.getId()}" class="instruction" th:utext="${instruction.getTitle()}"></span>
+                </div>
+                <div id="question-id" class="question"
+                     th:each="question, iterstate: ${instruction.getQuestions()}" th:object="${question}">
+                    <div class="title-ques mb-3">
+                        <div class="w-95 divText" th:utext="${iterstate.index}+1+' .' +*{getTitle()}" disabled></div>
+                    </div>
+                    <div class="form-check mb-3" th:each="answer:${question.getAnswers()}" th:object="${answer}">
+                        <div class="d-flex">
+                        <input th:attr="checked=*{isCorrect()}" class="form-check-input" type="radio"
+                               th:name="${question.getId()}" th:id="${question.getId()}+'an'+${answer.getId()}" disabled>
+                            <label class="form-check-label w-5" th:for="${question.getId()}+'an'+${answer.getId()}"></label>
+                            <div class="divText w-95" th:text="*{getOption()}"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

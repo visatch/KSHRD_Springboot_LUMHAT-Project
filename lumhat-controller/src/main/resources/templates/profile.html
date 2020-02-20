@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/sub_layout">
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="/css/history.css"/>
+</head>
+<body>
+<!-- Start your project here-->
+<div class="content" layout:fragment="content">
+    <!-- Start your project here-->
+    <div class="container-fluid ">
+        <div class="contain-profile ">
+            <img src="/picture/back.jpg">
+            <div class="profile-pic-container" >
+                <div class="profile ">
+                    <img  th:src="${user.imageUrl}" alt=""/>
+                </div>
+            </div>
+        </div>
+        <div class="name">
+            <span th:text="${user.firstName} +' '+ ${user.lastName}" ></span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="tabs-wrapper ">
+            <ul class="nav nav-tabs nav-justified row ">
+                <li class="nav-item col-md-3   text-right  ">
+                    <a class="nav-link waves-light active profile-nav" data-toggle="tab" href="#panel1011" role="tab "
+                       th:text="#{myprofile}">
+                    </a>
+                </li>
+                <li class="nav-item col-md-3   text-left ">
+                    <a th:text="#{history}" class="nav-link waves-light profile-nav" data-toggle="tab" href="#panel1012"
+                       role="tab">
+                        History
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- Tab panels -->
+        <div class="tab-content card ">
+            <!--Panel Profile-->
+            <div class="tab-pane row fade active in show  container" id="panel1011" role="tabpanel">
+                <div class="container">
+                    <form th:action="@{/profile}" method="Post" class="row" id="frm">
+                        <div class="col-md-6 ">
+                            <input type="text" id="" hidden class="form-control" th:field="${user.facebookId}">
+                            <div class="md-form">
+                                <input type="text" required id="firstname" class="form-control"
+                                       th:field="${user.firstName}">
+                                <label for="firstname" th:text="#{firstname}" class="label-active">FirstName:</label>
+                            </div>
+
+
+                            <select class=" mdb-select Teal-select   mt-3" th:field="${user.gender}" id="sex">
+                                <option value="1" th:text="#{male}">Male</option>
+                                <option value="2" th:text="#{female}">Female</option>
+                            </select>
+
+                            <div class="md-form">
+                                <input type="text" id="school"  required class="form-control" th:field="${user.school}">
+                                <label for="school" th:text="#{user-school}" class="label-active">School</label>
+                            </div>
+                            <div class="row">
+                                <div class="myright col-md-12 ">
+                                    <button type="button" class="btn bt btn-outline-default waves-effect">
+                                        <a th:text="#{cancle}" id="cancle">
+                                            Cancle
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <input type="text" required id="lastname" class="form-control"
+                                       th:field="${user.lastName}">
+                                <label for="lastname" class="label-active" th:text="#{lastname}">LastName</label>
+                            </div>
+                            <div class="md-form">
+                                <input type="text" required id="date" class="form-control" th:field="${user.dob}">
+                                <label for="date" class="label-active" th:text="#{date-of-birth}">Date of Birth </label>
+                            </div>
+
+                            <div class="md-form">
+                                <input type="text" required id="email" class="form-control" th:field="${user.email}">
+                                <label for="email" class="label-active" th:text="#{email}">Email </label>
+                            </div>
+                            <div class="myleft mt-2 ">
+                                <input class="btn bt btn-outline-info waves-effect" th:value="#{save-change}" type="submit" id="save"
+                                       value="Save Change ">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--/.Panel Profile-->
+
+            <!--Panel History-->
+            <div class="tab-pane  fade in show  container" id="panel1012" role="tabpanel">
+                <div class="table table-responsive-md  " id="history-blog">
+                    <div th:if="!${histories.isEmpty()}">
+                        <table class="table">
+                            <thead>
+                            <tr style=" height: 20px !important;">
+                                <th class="th-lg" th:text="#{date-quiz}">Date</th>
+                                <th class="th-lg" th:text="#{score}">Score</th>
+                                <th class="th-lg" th:text="#{time}">Time</th>
+                                <th class="th-lg" th:text="#{quiz}">Quiz</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="history : ${histories}">
+                            <tr style="padding: 0px !important; height: 10px !important;  ">
+                            </tr>
+                            <tr class="submajor-nav">
+                                <th class="text" colspan="4" th:text="${history.getSubMajor().getName()}"></th>
+                            </tr>
+                            <tr th:each="quizRecord : ${history.getQuizRecords()}">
+                                <td th:text="${#dates.format(quizRecord.getDate(), 'dd - MM - yyyy  ~ hh:mm a')}"></td>
+                                <td th:text="(${quizRecord.getScore()})+ '/' + (${quizRecord.getFullScore()})"></td>
+                                <td th:if="${quizRecord.getDuration()}>60"
+                                    th:text="(${#numbers.formatDecimal((quizRecord.getDuration()/60),1,0)})+' Minute '+ (${#numbers.formatDecimal((quizRecord.getDuration()%60),1,0)}) +' Second '"></td>
+                                <td th:unless="${quizRecord.getDuration()}>60"
+                                    th:text="(${quizRecord.getDuration()}%60) + ' Second '"></td>
+                                <td>
+                                    <a class="btn btn-sm btn-color btn-quiz" style="color: white;" th:id="${quizRecord.getQuiz().getId()}"
+                                       onclick="doQuizAgain(this)">
+                                        <span th:text="'Quiz '+(${quizRecord.getQuiz().getTitle()})"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <button type="button" class="btn bt btn-blue-grey" data-toggle="modal" data-target="#centralModalDanger"
+                                    th:text="#{delete}">Delete All Record
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <h2 th:if="${histories.isEmpty()}" id="no-record-label">No History Record!</h2>
+                </div>
+                <!--/.Panel History-->
+            </div>
+
+
+        </div>
+        <!-- Classic tabs -->
+
+
+        <!-- Start Modal Info -->
+        <div class="modal fade" id="centralModalInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+              data-backdrop='true'>
+            <div class="modal-dialog modal-notify modal-info" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead">Alert</p>
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fa fa-edit fa-4x mb-3 animated rotateIn"></i>
+                            <p>Do you want to do this quiz agian?
+                            </p>
+                        </div>
+                    </div>
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a href="#" class="btn btn-color waves-effect btn-danger" data-dismiss="modal">NO</a>
+                        <a type="button" id="done-do-quiz" class="btn btn-color waves-effect" data-dismiss="modal"
+                           style="color: white; background: #11999E;">YES</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Start Modal Info-->
+
+    </div>
+
+
+    <!-- Central Modal of Delete -->
+    <div class="modal fade" id="centralModalDanger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">You won't see this history agian!</p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fa fa-trash-o fa-4x mb-3 animated rotateIn"></i>
+                        <p>Are you sure to delete it?</p>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer justify-content-center">
+                    <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">No</a>
+                    <a type="button" class="btn btn-danger" data-dismiss="modal" id="btn-delete">Yes</i></a>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Central Modal of Delete -->
+
+
+
+</div>
+
+
+
+
+<!-- End your project here-->
+<th:block layout:fragment="script">
+
+
+    <!--import your script here-->
+    <script>
+        // Material Select Initialization
+        var obj;
+        $(document).ready(function () {
+                obj={
+                  school:$("#school").val(),
+                  fname:$("#firstname").val(),
+                  lastName:$("#lastname").val(),
+                  dob:$("#date").val(),
+                  email:$("#email").val(),
+                  gender:$("#sex").val()
+              };
+
+            $('.mdb-select').material_select();
+            // Use for remove #_=_ from URL when login success
+            if (window.location.hash == "#_=_") {
+                history.replaceState ? history.replaceState(null, null, window.location.href.split('#')[0]) : window.location.hash = '';
+            }
+        });
+
+        function myFunction() {
+            var x = document.getElementById("pass");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+
+        $("#cancle").click(function () {
+            $("#school").val(obj.school);
+            $("#firstname").val(obj.fname);
+            $("#lastname").val(obj.lastName);
+            $("#date").val(obj.dob);
+            $("#email").val(obj.email);
+            $("#sex").val(obj.gender);
+
+            $(".label-active").addClass('active');
+        });
+
+    </script>
+
+    <script src="js/profile-script/deleteHistory.js"></script>
+
+</th:block>
+
+</body>
+</html>

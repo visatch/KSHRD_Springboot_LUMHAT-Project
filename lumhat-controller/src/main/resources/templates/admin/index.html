@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       layout:decorator="layouts/admin_layout/default_layout">
+
+<head>
+    <title>Admin</title>
+</head>
+<body>
+<div class="content-page" layout:fragment="content-page">
+    <!-- Counts Section -->
+    <section class="dashboard-counts section-padding">
+      <div class="container-fluid">
+          <div class="row">
+          <!-- Count USER-->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="wrapper count-title d-flex">
+              <div class="icon">
+                <i class="icon-user"></i>
+              </div>
+              <div class="name">
+                <strong class="text-uppercase">Users</strong>
+                <div class="count-number" th:text="${allUser}"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Count Quizzes-->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="wrapper count-title d-flex">
+              <div class="icon">
+                <i class="icon-padnote"></i>
+              </div>
+              <div class="name">
+                <strong class="text-uppercase">Quizzes</strong>
+                <div class="count-number" th:text="${allQuiz}">400</div>
+              </div>
+            </div>
+          </div>
+          <!-- Count Questions-->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="wrapper count-title d-flex">
+              <div class="icon">
+                <i class="icon-check"></i>
+              </div>
+              <div class="name">
+                <strong class="text-uppercase">Questions</strong>
+                <div class="count-number" th:text="${question}"> </div>
+              </div>
+            </div>
+          </div>
+          <!-- Count item widget-->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="wrapper count-title d-flex">
+              <div class="icon">
+                <i class="icon-bill"></i>
+              </div>
+              <div class="name">
+                <strong class="text-uppercase">IT</strong>
+                <div class="count-number" th:text="${it}">123</div>
+              </div>
+            </div>
+          </div>
+          <!-- Count Korean Questions-->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="wrapper count-title d-flex">
+              <div class="icon">
+                <i class="icon-list"></i>
+              </div>
+              <div class="name">
+                <strong class="text-uppercase">Korean</strong>
+                <div class="count-number" th:text="${korean}">92</div>
+              </div>
+            </div>
+          </div>
+          <!-- Count English Questions-->
+          <div class="col-xl-2 col-md-4 col-6">
+            <div class="wrapper count-title d-flex">
+              <div class="icon">
+                <i class="icon-list-1"></i>
+              </div>
+              <div class="name">
+                <strong class="text-uppercase">English</strong>
+                <div class="count-number" th:text="${english}">70</div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="row mt-4">
+              <!-- Count All Class-->
+              <div class="col-xl-2 col-md-4 col-6">
+                  <div class="wrapper count-title d-flex">
+                      <div class="icon">
+                          <i class="icon-home active"></i>
+                      </div>
+                      <div class="name">
+                          <strong class="text-uppercase" th:text="${allClass>1} ? 'Classes' : 'Class'">Classes</strong>
+                          <div class="count-number" th:text="${allClass}">70</div>
+                      </div>
+                  </div>
+              </div>
+              <!-- Count All Teacher-->
+              <div class="col-xl-2 col-md-4 col-6">
+                  <div class="wrapper count-title d-flex">
+                      <div class="icon">
+                          <i class="icon-padnote"></i>
+                      </div>
+                      <div class="name">
+                          <strong class="text-uppercase" th:text="${allTeacher>1} ? 'Teachers' : 'Teacher'">Teachers</strong>
+                          <div class="count-number" th:text="${allTeacher}">70</div>
+                      </div>
+                  </div>
+              </div>
+              <!-- Count All Student-->
+              <div class="col-xl-2 col-md-4 col-6">
+                  <div class="wrapper count-title d-flex">
+                      <div class="icon">
+                          <i class="icon-padnote"></i>
+                      </div>
+                      <div class="name">
+                          <strong class="text-uppercase" th:text="${allStudent>1} ? 'Students' : 'Student'">Students</strong>
+                          <div class="count-number" th:text="${allStudent}">70</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+    <div class="home-logo"><img src="../admin-style/img/logo.png"></div>
+    </div>
+
+</body>
+
+</html>

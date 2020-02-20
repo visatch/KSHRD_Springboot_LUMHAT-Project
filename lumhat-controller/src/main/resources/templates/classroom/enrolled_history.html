@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/classroom_layout/default_layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{enrolled-class-history}">Enrolled Class History</title>
+    <link rel="stylesheet" href="/classroom/css/history.css">
+</head>
+
+<body class="hidden-sn grey-skin">
+
+<div  layout:fragment="content">
+
+    <!-- ============================== TABLE HISTORY STUDENT ============================== -->
+    <div class="mt-5">
+        <div class="container clr-history-container">
+
+            <h4 class="col-12 p-0 pt-4" th:text="#{student-history}">Student History</h4>
+
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <div class="row">
+                    <!-- Filter by class name -->
+                    <p class="pl-2 mr-5 clr-h6-filter" th:text="#{filter-class}">Filter by Class</p>
+                    <div class="select-outline">
+                        <select class="mdb-select md-form md-outline clr-ul-dropdown my-4" id="allEnrollClass">
+                            <option value="0" selected th:text="#{all}">All</option>
+                            <th:block th:each="enroll : ${AllEnrollClass}">
+                                <option th:value="${enroll.id}" th:text="${enroll.name}+' ('+${enroll.subject}+')'"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="history-blog">
+                        <div class="table table-responsive-md table-striped min-400">
+                            <table class="table table-striped clr-history-table" id="dt-material-checkbox">
+                                <thead>
+                                <tr style=" height: 20px !important;">
+                                    <th class="th-lg" th:text="#{date}">ថ្ងៃ​ធ្វើលំហាត់</th>
+                                    <th class="th-lg" th:text="#{quiz-title}">លំហាត់</th>
+                                    <th class="th-lg" th:text="#{score}">ពិន្ទុ</th>
+                                    <th class="th-lg" th:text="#{quiz-duration}">រយៈ​ពេល</th>
+                                    <th class="th-lg" th:text="#{status}">ស្ថានភាព</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbEnrollHistory">
+                                <th:block th:if="${!allStuHis.isEmpty()}">
+                                    <th:block th:each="history : ${allStuHis}">
+                                        <tr>
+                                            <td th:text="${#dates.format(history.getRecordDate(),'dd-MMM-yyyy hh:mm:ss')}">10 - 07 - 2019 ~ 10:27 PM</td>
+                                            <td th:text="${history.getQuizTitle()}">1/10</td>
+                                            <td th:text="${history.getScore()+'/'+history.getFullScore()}">0</td>
+                                            <td th:if="${history.getDuration()}>60"
+                                                th:text="(${#numbers.formatDecimal((history.getDuration()/60),1,0)})+' min '+ (${#numbers.formatDecimal((history.getDuration()%60),1,0)}) +' sec     '"></td>
+                                            <td th:unless="${history.getDuration()}>60"
+                                                th:text="(${history.getDuration()}%60) + ' sec '"></td>
+                                            <!--<td th:text="${history.getDuration()}">23 Second </td>-->
+                                            <td>
+                                                <span class="clr-student-status clr-submited fs-14" th:if="${history.getStatus()} == 0" th:text="#{submitted}">Submitted</span>
+                                                <span class="clr-student-status clr-miss-color fs-14" th:unless="${history.getStatus()} == 0" th:text="#{missed}">Missed</span>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+                                </th:block>
+                                <th:block th:unless="${!allStuHis.isEmpty()}">
+                                    <tr>
+                                        <td colspan="5" align="center" class="bg-white" style="padding-top: 20px!important;font-size: 20px" th:text="#{no-history}">No history</td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation example slide-pagination" th:if="${paging.totalPages} > 1">
+                            <ul class="pagination pagination-circle pg-teal w-100 d-flex justify-content-center">
+                                <li class="page-item"><a class="page-link" onclick="getStudentHistory(1)" th:text="#{first}">First</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" aria-label="Previous" th:onclick="|getStudentHistory('${paging.previousPage}')|">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only" th:text="#{previous}">Previous</span>
+                                    </a>
+                                </li>
+                                <li th:each="i: ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                                    th:class="${paging.page}==${i} ? 'page-item active': 'page-item'" >
+                                    <a class="page-link" th:onclick="|getStudentHistory('${i}')|" th:text="${i}"></a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" aria-label="Next" th:onclick="|getStudentHistory('${paging.nextPage}')|">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only" th:text="#{next}">Next</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" th:onclick="|getStudentHistory('${paging.totalPages}')|" th:text="#{last}">Last</a></li>
+                            </ul>
+                        </nav>
+                        <th:block th:if="${!allStuHis.isEmpty()}">
+                            <div class="text-center btn-btm">
+                                <button type="button" class="btn bt btn-blue-grey waves-effect waves-light"
+                                        data-toggle="modal" data-target="#emptyHistoryModal"><i class="far fa-trash-alt"></i>&nbsp; <span th:text="#{delete}">លុប​ទាំងអស់</span></button>
+                            </div>
+                        </th:block>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================== END TABLE HISTORY STUDENT ============================== -->
+
+
+    <!-- ============================== Remove History CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="emptyHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-clear-history}">Are you sure to clear all history ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                            id="btnRemoveAllEnrollHistory"><i class="far fa-trash-alt"></i>&nbsp; <span th:text="#{remove}">Remove</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- ============================== End Remove History CONFIRM MODAL ============================== -->
+
+
+    <!-- ============================== Remove History SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="removeModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4>Successfully Removed !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================== END Remove History SUCCESS MODAL ============================== -->
+
+</div>
+<th:block layout:fragment="script">
+    <script src="/classroom/js/enroll-history.js"></script>
+</th:block>
+</body>
+</html>

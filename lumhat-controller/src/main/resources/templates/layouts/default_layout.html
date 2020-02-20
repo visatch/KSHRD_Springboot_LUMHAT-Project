@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/init-style/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="/css/init-style/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link rel="stylesheet" href="/css/init-style/init-style.css">
+    <link rel="shortcut icon" href="/img/lumhat-black.png" />
+    <link rel="stylesheet" href="/css/category.css">
+
+    <link rel="stylesheet" href="/classroom/css/lumhat-homepage.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Hanuman" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131596506-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-131596506-1');
+    </script>
+
+</head>
+
+<body>
+
+<!-- Start your project here-->
+<header th:replace="fragments/header::header"></header>
+
+<div class="content" layout:fragment="content"></div>
+
+<nav th:replace="fragments/footer :: footer"></nav>
+
+<!-- /Start your project here-->
+
+<!-- SCRIPTS -->
+<!-- JQuery -->
+<script type="text/javascript" src="/js/init/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="/js/init/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="/js/init/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="/js/init/mdb.min.js"></script>
+ <!-- Custom js here -->
+<script>
+
+    $(document).ready(function () {
+        $('.dropdown-submenu a.test').on("click", function (e) {
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+
+    });
+</script>
+<script src="/js/category.js"></script>
+<th:block layout:fragment="script">
+
+</th:block>
+</body>
+
+</html>

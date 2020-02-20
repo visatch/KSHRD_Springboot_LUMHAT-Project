@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/classroom/css/fontawesome.min.css">
+    <!-- Material Design Bootstrap -->
+    <link href="/classroom/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="/classroom/css/classroom.css" rel="stylesheet">
+    <link href="/classroom/css/modal.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/classroom/images/favicon-w.png" />
+    <link href="/classroom/css/navbar.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Hanuman" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131596506-1"></script>
+    <!-- JQuery -->
+    <script type="text/javascript" src="/classroom/js/jquery-3.3.1.min.js"></script>
+    <!--Regex plugin-->
+    <script type="text/javascript" src="/classroom/js/xregexp.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-131596506-1');
+    </script>
+
+</head>
+
+<body>
+
+<!-- Start your project here-->
+<header th:replace="fragments/classroom_fragments/header::header"></header>
+
+<div class="content" layout:fragment="content"></div>
+<!-- /Start your project here-->
+
+<!-- SCRIPTS -->
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="/classroom/js/popper.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="/classroom/js/mdb.min.js"></script>
+<!--<script type="text/javascript" src="/classroom/js/mdb-function.min.js"></script>-->
+ <!-- Custom js here -->
+<script type="text/javascript" src="/classroom/js/classroom.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+<script src="/classroom/dist/js/clipboard.min.js"></script>
+<th:block layout:fragment="script">
+
+</th:block>
+</body>
+
+</html>

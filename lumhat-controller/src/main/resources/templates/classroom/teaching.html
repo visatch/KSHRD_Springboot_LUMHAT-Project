@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/classroom_layout/default_layout.html">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{teaching-class}">Teaching Class</title>
+    <link rel="stylesheet" href="/classroom/css/quiz.css">
+    <link rel="stylesheet" href="/classroom/css/history.css">
+    <link rel="stylesheet" href="/classroom/dist/css/croppie.css">
+    <link rel="stylesheet" href="/classroom/dist/css/style.css">
+    <!--Script-->
+<!--    <script src="/classroom/js/jquery-3.3.1.min.js"></script>-->
+
+</head>
+<body class="hidden-sn grey-skin">
+
+<div  layout:fragment="content">
+
+    <!-- ============================== EDIT CLASS MODAL ============================== -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body clr-modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{edit-class}">Edit Class</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="classnameEdit" name="name" th:value="${classInfo.name}"
+                               class="form-control form-control-sm validate ml-0">
+                        <label data-error="please input at least 3 character" id="classnameEditLabel" for="classnameEdit" class="clr-modal-label ml-0"
+                        th:text="#{new-class-name}">New class
+                            name</label>
+                    </div>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="subjectEdit" name="subject" th:value="${classInfo.subject}"
+                               class="form-control form-control-sm validate ml-0">
+                        <label data-error="please input at least 3 character" for="subjectEdit" id="subjectEditLabel" class="clr-modal-label ml-0"
+                        th:text="#{subject}">Subject</label>
+                    </div>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="roomEdit" name="room" class="form-control form-control-sm validate ml-0" th:value="${classInfo.room}">
+                        <label id="roomEditLabel" for="roomEdit" class="clr-modal-label ml-0" th:text="#{room}">Room</label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" id="updateClassSubmit" onclick="updateClassroom()"><i class="fas fa-folder-plus"></i>&nbsp;
+                            <span th:text="#{update}">UPDATE</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+                            <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END EDIT CLASS MODAL ============================== -->
+
+    <!-- ============================== EDIT CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="editModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-updated}">Successfully Updated !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END EDIT CLASS SUCCESS MODAL ============================== -->
+
+
+    <!-- ============================== ARCHIVE CLASS CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="archiveModalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-archive-class}">Are you sure to archive class ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" onclick="archiveClass()" data-dismiss="modal" data-toggle="modal"><i class="fas fa-inbox"></i>&nbsp;<span th:text="#{archive}">Archive</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;<span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS CONFIRM MODAL ============================== -->
+
+    <!-- ============================== ARCHIVE CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="archiveModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-archived}">Successfully archived !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS SUCCESS MODAL ============================== -->
+
+    <!-- ============================== Draft CLASS CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="removeDraftModalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-remove-draft}">Are you sure to remove draft ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                            data-target="#draftModalSuccess"><i class="fas fa-inbox"></i>&nbsp; <span th:text="#{draft}">Draft</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS CONFIRM MODAL ============================== -->
+
+    <!-- ============================== ARCHIVE CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="draftModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-removed-draft}">Successfully removed draft !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS SUCCESS MODAL ============================== -->
+
+    <!-- ============================== VIEW CLASS CODE MODAL ============================== -->
+    <div class="modal fade clr-modal" id="viewCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify clr-modal-dialog" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+                    <p class="h4" th:text="${classInfo.name}"></p>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center py-5">
+                        <h1 th:text="${classInfo.code}" id="copyClassCode" class="view-code-lg" data-clipboard-action="copy" data-clipboard-target="#copyClassCode">3whhvs</h1>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END VIEW CLASS CODE MODAL ============================== -->
+
+    <!-- ============================== TEACHING FORM ============================== -->
+    <div class="container-fluid clr-container-fluid clr-teacher">
+
+        <!-- Class code information -->
+        <div class="row clr-class-code">
+            <div class="col-1 clr-hide"></div>
+
+            <!-- Class card -->
+            <div class="col-lg-3 col-md-4 col-sm-6 clr-info-card">
+                <!-- Class card image -->
+                <div class="card clr-class-card">
+                    <div class="view overlay clr-class-overlay">
+                        <img class="card-img-top clr-card-img-top" id="class_cover" th:src="${'/image/'+classInfo.imagePath}" onerror="this.src = '/image/favicon-b.png';"
+                             alt="Card class">
+
+                        <a class="clr-3dots-mf" data-toggle="dropdown"><i class="fas fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu clr-class-dropdown-menu">
+                            <a class="dropdown-item clr-class-dropdown-item" data-toggle="modal"
+                               data-target="#modalEdit" th:text="#{edit}">Edit</a>
+                            <a class="dropdown-item clr-class-dropdown-item" data-toggle="modal"
+                               data-target="#archiveModalConfirm" th:text="#{archive}">Archive</a>
+                        </div>
+
+                        <a id="change_cover" class="clr-change-cover"><i class="fas fa-camera"></i> <span th:text="#{change-cover}">change cover</span></a>
+
+                    </div>
+
+                    <hr class="m-0">
+
+                    <div class="card-body clr-class-card-body text-center">
+                        <table class="table table-condensed f11 table-nowrap clr-table-card">
+                            <tr>
+                                <td width="35%"><p class="fs-14" th:text="#{subject}"><strong>Subject</strong></p></td>
+                                <td><p><strong>:</strong></p></td>
+                                <td width="62%"><p class="clr-class-text"><strong id="classroomSubject" class="fs-14" th:text="${classInfo.subject}"></strong></p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="fs-14" th:text="#{number-of-student}"><strong>Student</strong></p></td>
+                                <td><p><strong>:</strong></p></td>
+                                <td><p class="clr-class-text"><strong class="fs-14" id="totalStudent" th:text="${classInfo.totalStudent}"></strong></p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="fs-14" th:text="#{number-of-quiz}"><strong>Quiz</strong></p></td>
+                                <td><p><strong>:</strong></p></td>
+                                <td><p class="clr-class-text fs-14"><strong id="totalQuiz" th:text="${classInfo.totalQuiz}"></strong></p></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Class information -->
+            <div class="col clr-bg-class">
+                <h3 id="classroomName" th:text="${classInfo.name}"></h3>
+                <h6><span th:text="#{class-code}" class="fs-16">Class code </span> : &nbsp;
+                    <span id="expand_screen" data-toggle="modal" data-target="#viewCodeModal">
+                        <span th:text="${classInfo.code}" class="class_code" id="class_code" data-clipboard-action="copy" data-clipboard-target="#class_code"></span> &nbsp;
+                        <i class="fas fa-expand"></i>
+                    </span>
+                </h6>
+            </div>
+        </div>
+
+        <!-- Class tab -->
+        <div class="classic-tabs clr-classic-tabs">
+
+            <div class="row clr-tabs">
+
+                <div class="col-lg-4 col-md-1 col-sm-0 clr-hide"></div>
+
+                <div class="col">
+                    <ul class="nav tabs-cyan clr-tabs" id="myClassicTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link clr-nav-link  waves-light active show" id="quiz-tab" data-toggle="tab"
+                               href="#quiz-classic"  onclick="getAllQuiz(1)" role="tab" aria-controls="quiz-classic" aria-selected="true">
+                                <i class="fas fa-file-signature"></i> <span class="fs-16" th:text="#{quiz}">QUIZ</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link clr-nav-link waves-light" id="student-tab" data-toggle="tab"
+                               href="#student-classic" onclick="getAllStudent()"
+                               role="tab" aria-controls="student-classic"
+                               aria-selected="false">
+                                <i class="fas fa-user"></i> <span class="fs-16" th:text="#{student}">STUDENT</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link clr-nav-link waves-light" id="history-tab" data-toggle="tab"
+                               href="#history-classic" onclick="getHistory(1)" role="tab" aria-controls="history-classic"
+                               aria-selected="false">
+                                <i class="fas fa-history"></i> <span class="fs-16" th:text="#{classroom-history}">HISTORY</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-1 col-sm-0 clr-hide"></div>
+            </div>
+
+            <div class="row clr-multi-tabs">
+
+                <div class="col-lg-4 col-md-1 col-sm-0 clr-hide"></div>
+
+
+                <!-- Class Tabs -->
+                <div class="col p-0">
+                    <div class="tab-content clr-tab-content pt-0" id="myClassicTabContent">
+                        <!-- ============================== QUIZ TAB ============================== -->
+                        <div class="tab-pane clr-tab-pane fade active show" id="quiz-classic" role="tabpanel"
+                             aria-labelledby="quiz-tab">
+
+                        </div>
+                        <!-- ============================== END QUIZ TAB ============================== -->
+
+                        <!-- ============================== STUDENT TAB ============================== -->
+                        <div class="tab-pane clr-tab-pane fade" id="student-classic" role="tabpanel"
+                             aria-labelledby="classwork-tab">
+
+                        </div>
+                        <!-- ============================== END STUDENT TAB ============================== -->
+                        <!-- ============================== HISTORY TAB ============================== -->
+                        <div class="tab-pane clr-tab-pane fade grey-skin" id="history-classic" role="tabpanel"
+                             aria-labelledby="history-tab">
+
+                        </div>
+                        <!-- ============================== END HISTORY TAB ============================== -->
+                    </div>
+                </div>
+
+                <div class="col-1 clr-hide"></div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ============================== END TEACHING FORM ============================== -->
+
+
+    <!-- ============================== CHANGE IMAGE ============================== -->
+    <div class="modal fade" id="cropModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+         data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg modal-notify modal-info" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <h5 class="py-2" th:text="#{change-cover}">Change class cover</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body-crop text-center">
+
+                    <div>
+
+                        <!-- View Cropped image -->
+                        <div class="col-12">
+                            <div class="image-cropped">
+                                <img src="/classroom/images/q.jpg" alt="cropped_image" id="cropped_image" class="img-fluid">
+                            </div>
+                        </div>
+
+                        <!-- Crop image -->
+                        <div class="col-12">
+                            <div class="upload-demo-wrap clr-upload-place">
+                                <div id="upload-image"></div>
+                            </div>
+                        </div>
+
+                        <!-- Upload image -->
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="actions row">
+                                        <div class="file-field clr-file-field">
+                                            <div class="btn btn-primary btn-sm float-left">
+                                                <span><i class="fas fa-cloud-upload-alt mr-2"
+                                                         aria-hidden="true"></i><span th:text="#{upload-image}">Upload image</span></span>
+                                                <input type="file" id="upload" value="Choose a file" accept="image/*"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 upload-result">
+                                    <div class="actions row">
+                                        <div class="file-field clr-file-field">
+                                            <div class="btn clr-btn-ok btn-sm float-left">
+                                                <span><i class="fas fa-cut mr-2 upload-result"
+                                                         aria-hidden="true"></i><span th:text="#{crop}">Crop</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer">
+                    <button class="btn clr-btn-ok mt-1 float-right" data-dismiss="modal" data-toggle="modal"
+                            id="confirm_cropped_image"><i class="fas fa-check"></i>&nbsp;
+                        <span th:text="#{ok}">OK</span></button>
+                    <button class="btn clr-btn-red mt-1 float-right" data-dismiss="modal"><i
+                            class="fas fa-times"></i>&nbsp;
+                        <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== CHANGE CROP IMAGE ============================== -->
+
+
+    <!-- ============================== ARCHIVE CLASS SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="cropModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-updated-cover}">Successfully updated cover !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END ARCHIVE CLASS SUCCESS MODAL ============================== -->
+
+    <!-- ============================= Modal Preview ============================= -->
+    <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-lg" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header pb-0">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body pt-0">
+                    <div class="container pt-0 clr-preview-font">
+                        <center>
+                            <h1 class="pt-0" th:text="#{result}"><b>Result</b></h1>
+                        </center>
+                        <div class="col-12 p-0">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-8 mr-auto clr-preview-font">
+                                    <table>
+                                        <tr>
+                                            <td th:text="#{class}">Class</td>
+                                            <td>:</td>
+                                            <td id="class"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td th:text="#{topic}">Topic</td>
+                                            <td>:</td>
+                                            <td id="quizTopic"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td th:text="#{room}">Room</td>
+                                            <td>:</td>
+                                            <td id="roomClass"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td th:text="#{teacher}">Teacher</td>
+                                            <td>:</td>
+                                            <td id="teacherName"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="text-right clr-preview-font">
+                                        <table class="text-left" >
+                                            <tr>
+                                                <td th:text="#{date}">Date</td>
+                                                <td>:</td>
+                                                <td id="recordDate"></td>
+                                            </tr>
+                                            <tr>
+                                                <td th:text="#{number-of-student}">Student</td>
+                                                <td>:</td>
+                                                <td id="totalStudentResult"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-hover clr-preview-font">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th th:text="#{name}">Name</th>
+                            <th th:text="#{score}">Score</th>
+                            <th th:text="#{rank}">Rank</th>
+                        </tr>
+                        </thead>
+                        <tbody id="listScore">
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" id="exportPreviewReportBtn"><i class="fas fa-download"></i>&nbsp; <span th:text="#{export}">Export</span></button>
+                    <input type="hidden" id="exportPreviewReport">
+                    <input type="hidden" id="exportPreviewReportTopic">
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+                        <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================== Export FAIL MODAL ============================== -->
+    <div class="modal fade" id="exportModalFail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-danger" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-times-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{failed-to-export}">Fail to Export !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END Export FAIL MODAL ============================== -->
+
+    <!-- ============================= End Modal Preview ============================= -->
+
+    <!-- ============================== Remove Student CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="removeStudentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-remove-student}">Are you sure remove student ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" id="btnRemoveStudent"><i class="far fa-trash-alt"></i>&nbsp;<span th:text="#{remove}">Remove</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;<span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================== Remove Quiz CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="removeQuizModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-remove-quiz}">Are you sure remove quiz ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" id="btnRemoveQuiz"><i class="far fa-trash-alt"></i>&nbsp; <span th:text="#{remove}">Remove</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================== Remove History CONFIRM MODAL ============================== -->
+    <div class="modal fade" id="emptyHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-info-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{are-you-sure-to-clear-history}">Are you sure to clear all history ?</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal" id="removeClassroomHistory"><i class="far fa-trash-alt"></i>&nbsp; <span th:text="#{clear-history}">Clear</span></button>
+                    <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================== Remove SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="removeModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-removed}">Successfully Removed !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-dismiss="modal"><i class="fas fa-check"></i>&nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END Remove SUCCESS MODAL ============================== -->
+
+    <!-- ============================== CREATE  QUIZ MODAL ============================== -->
+    <div class="modal fade" id="modalCreateQuiz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body clr-modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{create-quiz}">Create Quiz</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="quizTitle" th:placeholder="#{quiz-title}" name="quizTitle" class="form-control form-control-sm validate ml-0 mb-0">
+                        <label id="lbQuizTitle" for="quizTitle" class="ml-0 mt-2 text-danger clr-modal-label"></label>
+                    </div>
+                    <div id="topic" class="mb-4">
+                        <div class="md-form clr-form ml-0 mr-0" id="selectTopic">
+                            <select class="mdb-select md-form" id="topicQuiz">
+                                <optgroup label="">
+                                    <th:block th:each="topic : ${topics}">
+                                        <option th:value="${topic.id}" th:text="${topic.topic}">No Topic</option>
+                                    </th:block>
+                                </optgroup>
+                                <optgroup label="">
+                                    <option value="0" th:text="#{add-topic}">Add Topic</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" id="btnCreateQuiz" data-toggle="modal" onclick="createQuiz()"
+                        ><i class="fas fa-folder-plus"></i>&nbsp;
+                            <span th:text="#{create}">Create</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+                            <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== CREATE QUIZ SUCCESS MODAL ============================== -->
+    <div class="modal fade" id="createQuizModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header clr-code-modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body clr-modal-body">
+                    <div class="text-center">
+                        <i class="far fa-check-circle fa-4x mb-3 animated rotateIn"></i>
+                        <h4 th:text="#{successfully-created}">Successfully Created !</h4>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="modal-footer clr-modal-footer justify-content-center">
+                    <button class="btn clr-btn-ok mt-1" data-backdrop="static" data-dismiss="modal" data-toggle="modal" data-target="#modal-instruction"><i class="fas fa-check"></i>
+                        &nbsp; <span th:text="#{ok}">OK</span></button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END CREATE QUIZ SUCCESS MODAL ============================== -->
+    <!-- ============================== END CREATE QUIZ MODAL ============================== -->
+
+    <!-- ============================== REUSE QUIZ MODAL ============================== -->
+    <div class="modal fade" id="modalFindReuseQuiz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body clr-modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{reuse-quiz}">Reuse Quiz</h5>
+
+                    <div class="modal-body">
+                        <div class="clr-invalid clr-modal-label" id="selectNameLabel"></div>
+                        <div class="select-outline">
+                            <select class="mdb-select md-form md-outline clr-ul-dropdown" id="selectClassName">
+
+                            </select>
+                        </div>
+
+                        <div class="clr-invalid clr-modal-label" id="selectQuizLabel"></div>
+                        <div class="select-outline">
+                            <select class="mdb-select md-form md-outline clr-ul-dropdown" id="selectQuizTitle">
+                                <option value="" selected disabled><span th:text="#{please-select-class-first}">Please select class first</span></option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" data-toggle="modal" id="btnReuseQuiz"><i class="fas fa-folder-plus"></i>&nbsp;
+                            <span th:text="#{submit}">Submit</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+                            <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalReuseQuiz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body clr-modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5">Create Quiz</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="re_quizname" name="re_quizname" class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="re_quizname" class="ml-0" th:text="#{new-quiz-name}">New quiz
+                            name</label>
+                    </div>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="re_topic" name="re_topic" class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="re_topic" class="ml-0" th:text="#{topic}">Topic</label>
+                    </div>
+
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <input type="text" id="re_duration" name="re_duration" class="form-control form-control-sm validate ml-0">
+                        <label data-error="wrong" data-success="right" for="re_duration" class="ml-0" th:text="#{quiz-duration}">Duration</label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" data-dismiss="modal" data-toggle="modal"
+                                data-target="#createQuizModalSuccess"><i class="fas fa-folder-plus"></i>&nbsp; <span th:text="#{create}">Create</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp; <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END REUSE QUIZ MODAL ============================== -->
+
+    <!-- ============================== CREATE QUESTION MODAL ============================== -->
+    <div class="modal fade" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" id="quiz-modal">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+
+                <!-- QUIZ MODAL TITLE -->
+                <div class="quiz-modal-title d-flex flex-start w-100">
+                    <div class="w-40">
+                        <span th:text="#{class-name}">Class Name</span>
+                        <span id="classname" class="clr-class-text" th:text="' : '+${classInfo.name}"></span>
+                    </div> 
+                    <div class="w-40">  
+                        <span th:text="#{title}">Title</span>
+                        <span class="clr-class-text" id="q_title"></span> 
+                    </div>
+                    <div class="w-20 text-right">
+                        <span th:text="#{topic}">Topic</span>
+                        <span class="clr-class-text" id="q_topic"></span>
+                    </div>
+                </div>
+
+
+                <!-- BUTTONS OF QUIZ MODAL -->
+                <div class="col-lg-10 col-md-10 col-sm-12 mb-5 justify-content-center m-auto" id="modal-quiz">
+                    <div class="my-3">
+                        <button type="submit" onclick="checkInstruction()" class="btn btn-sm btn-default" data-toggle="modal">
+                            <i class="fas fa-plus mr-2"></i> <span th:text="#{add-instruction}">ADD INSTRUCTION</span>
+                        </button>
+                        <button class="btn btn-sm btn-secondary" onclick="preview()" data-toggle="modal"
+                                data-target="#preview-modal">
+                            <i class="fas fa-eye mr-2" aria-hidden="true"></i> <span th:text="#{preview}">PREVIEW</span> <span class="badge badge-danger ml-2"
+                                                                                             id="totalInstruction"></span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger"  data-dismiss="modal">
+                            <i class="fas fa-times mr-2"></i> <span th:text="#{cancel}">CANCEL</span>
+                        </button>
+                    </div>
+
+                    <!-- Card -->
+                    <div id="quiz">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================== END CREATE QUESTION MODAL ============================== -->
+
+    <!-- ============================== Preview Modal ============================== -->
+    <div class="modal fade" data-backdrop="static" id="preview-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header quiz-modal-title">
+                    <div class="w-100 text-center">
+                        <span style="font-size: 20px" th:text="#{preview}">PREVIEW</span>
+                    </div>
+                </div>
+                <div class="modal-body" id="preview">
+                    <div class="container-fluid">
+                        <div class="contain">
+                            <div class="container do-quiz-container">
+                                <div class="sub-quiz font-size-1-5rem">
+                                    <span th:text="#{quiz-title}"></span>
+                                    <span id="quizPreviewTitle"></span>
+                                </div>
+                                <div class="do-quiz">
+                                    <div class="my-container" id="question-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  id = "btnPublish" class="btn btn-default btn-sm mr-0" data-toggle="modal"
+                            data-target="#modalChoiceQuizExpire" th:text="#{publish}">PUBLISH</button>
+                    <button type="button"  id = "btnDraft" class="btn btn-secondary btn-sm mr-0" th:text="#{draft}">Draft</button>
+                    <button class="btn btn-danger btn-sm mr-0" onclick="checkBeforeClose()" th:text="#{cancel}">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preview Modal -->
+
+    <!-- Preview Modal -->
+    <div class="modal fade" data-backdrop="static" id="preview-assigned-quiz-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header quiz-modal-title">
+                    <div class="w-100 text-center">
+                        <span style="font-size: 20px" th:text="#{preview}">PREVIEW</span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="contain" id="previewAssignedQuiz">
+                            <div class="container do-quiz-container">
+                                <div class="sub-quiz font-size-1-5rem">
+                                        <span th:text="#{quiz-title}"></span>
+                                        <span id="quizAssignedTitle"></span>
+                                </div>
+                                <div class="do-quiz">
+                                    <div class="my-container">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-sm mr-0" data-dismiss="modal" th:text="#{cancel}">CANCEL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Preview Modal -->
+
+    <!-- ============================== ADD INSTRUCTION MODAL ============================== -->
+    <div class="modal fade" id="modal-instruction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{add-instruction}">ADD INSTRUCTION</h5>
+
+                    <div class="md-form mb-4 pink-textarea active-pink-textarea-2">
+                        <textarea id="txtInstruction" class="md-textarea form-control" rows="1" onkeyup="validInstruction('txtInstruction','txtInstructionLabel','btnAddInstruction')"></textarea>
+                        <label for="txtInstruction"><span>Enter Instruction</span> <span class="clr-invalid clr-modal-label" id="txtInstructionLabel"></span></label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" onclick="addInstruction($(this))" id="btnAddInstruction"
+                                data-toggle="modal"><i class="fas fa-plus ml-1 mr-2"></i><span th:text="#{add}">ADD</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"> <i
+                                class="fas fa-times ml-1 mr-2"></i> <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END INSTRUCTION MODAL ============================== -->
+
+    <!-- ============================== EDIT INSTRUCTION MODAL ============================== -->
+    <div class="modal fade" id="modal-edit-instruction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body text-center mb-1">
+
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{update-instruction}">UPDATE INSTRUCTION</h5>
+
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <textarea type="text" id="txtTitleIns" class="form-control md-textarea" rows="1" onkeyup="validInstruction('txtTitleIns','txtTitleInsLabel','btnSaveIns')"></textarea>
+                        <label data-error="wrong" for="txtTitleIns" class="ml-0">Enter Instruction <span class="clr-invalid clr-modal-label" id="txtTitleInsLabel"></span></label>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" id="btnSaveIns"
+                                data-toggle="modal" th:text="#{save}">Save</button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal" th:text="#{cancel}">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== END EDIT INSTRUCTION MODAL ============================== -->
+
+    <!-- ============================== CHOICE EXPIRE QUIZ MODAL ============================== -->
+    <div class="modal fade" id="modalChoiceQuizExpire" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog cascading-modal modal-md" role="document">
+            <!--Content-->
+            <div class="modal-content">
+                <!--Body-->
+                <div class="modal-body clr-modal-body text-center mb-1">
+                    <h5 class="mt-1 mb-2 text-left clr-h5" th:text="#{expiration-duration-quiz-instruction}">Choice quiz expire and duration</h5>
+                    <div class="md-form clr-form ml-0 mr-0">
+                        <div class="clr-invalid clr-modal-label" id="selectExpireLabel"></div>
+                        <select class="mdb-select md-form mt-0" id="selectExpire">
+                            <option value="" disabled selected th:text="#{quiz-expiration-time}">Choose Expire Quiz</option>
+                            <option value="60">1 hour</option>
+                            <option value="120">2 hours</option>
+                            <option value="180">3 hours</option>
+                            <option value="300">5 hours</option>
+                            <option value="430">7 hours</option>
+                            <option value="720">12 hours</option>
+                            <option value="1440">24 hours</option>
+                            <option value="1051897">No Expire</option>
+                        </select>
+                    </div>
+                    <div class="md-form">
+                        <div class="clr-invalid clr-modal-label" id="selectDurationLabel"></div>
+                        <select class="mdb-select md-form mt-0" id="selectDuration">
+                            <option value="" disabled selected th:text="#{quiz-duration}">Choose your duration quiz</option>
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="20">20 minutes</option>
+                            <option value="30">30 minutes</option>
+                            <option value="60">60 minutes</option>
+                            <option value="90">90 minutes</option>
+                        </select>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn clr-btn-ok mt-1" id="btnComfirmQuizExpire" data-toggle="modal"
+                        ><i class="fas fa-folder-plus"></i>&nbsp;
+                            <span th:text="#{ok}">OK</span></button>
+                        <button class="btn clr-btn-red mt-1" data-dismiss="modal"><i class="fas fa-times"></i>&nbsp;
+                            <span th:text="#{cancel}">Cancel</span></button>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- ============================== CHOICE EXPIRE SUCCESS MODAL ============================== -->
+</div>
+<th:block layout:fragment="script">
+    <!--import your script here-->
+    <script>
+        $(document).ready(function () {
+            getAllQuiz(1);
+            resizeTextArea("txtInstruction");
+            resizeTextArea("txtTitleIns");
+            var editQuizId = 0;
+        });
+        $('.collapse').collapse();
+    </script>
+    <!--<script src="/classroom/dist/js/jquery.min.js"></script>-->
+    <script src="/classroom/js/quiz-crud.js"></script>
+    <script src="/classroom/js/teacher.js"></script>
+    <script src="/classroom/js/quiz-view.js"></script>
+    <script src="/classroom/dist/croppie/croppie.min.js"></script>
+    <script src="/classroom/dist/js/exif.js"></script>
+    <script src="/classroom/dist/js/script.js"></script>
+    <script>
+        CropImage.init();
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var classId = /*[[${classInfo.id}]]*/'';
+        var totalQuiz = /*[[${classInfo.totalQuiz}]]*/'';
+        //Pass i18n to javascript
+        var addQuestionText = /*[[#{add-question}]]*/'';
+        var instructionText = /*[[#{instruction}]]*/'';
+        var pleaseInputQuestionText = /*[[#{please-input-question}]]*/'';
+        var pleaseInputAnswerText = /*[[#{ please-input-answer}]]*/'';
+        var okText = /*[[#{ok}]]*/'';
+        var noOneSelect = /*[[#{no-one-select}]]*/'';
+        var mustCheckCorrectAnswer = /*[[#{must-check-correct-answer}]]*/'';
+        var eachInsMustHaveOneQ = /*[[#{each-instruction-must-have-one-q}]]*/'';
+        var mustFinishUpdate = /*[[#{must-finish-update}]]*/'';
+        var saveText = /*[[#{save}]]*/'';
+        var removeText = /*[[#{remove}]]*/'';
+        var editText = /*[[#{edit}]]*/'';
+        var noQuizText = /*[[#{no-quiz}]]*/'';
+        var noQuestionText = /*[[#{ no-question}]]*/'';
+        var addTopicText = /*[[#{add-topic}]]*/'';
+        /*]]>*/
+    </script>
+</th:block>
+</body>
+</html>

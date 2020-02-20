@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/admin_layout/default_layout">
+
+<head>
+    <title>Major</title>
+</head>
+
+<body>
+<div class="content-page" layout:fragment="content-page">
+    <!-- Tab List -->
+    <nav class="nav-container">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-major-tab" data-toggle="tab" href="#nav-major" role="tab"
+               aria-controls="nav-major"
+               aria-selected="true">Major</a>
+            <a class="nav-item nav-link" id="nav-sub-major-tab" data-toggle="tab" href="#nav-sub-major" role="tab"
+               aria-controls="nav-sub-major"
+               aria-selected="false">Sub-Major</a>
+            <a class="nav-item nav-link" id="nav-subject-tab" data-toggle="tab" href="#nav-subject" role="tab"
+               aria-controls="nav-subject"
+               aria-selected="false">Subject</a>
+        </div>
+    </nav>
+    <div id="loading">
+        <img id="loading-image" src="/picture/loading.gif" alt="Loading..." />
+    </div>
+    <!-- Tab Content -->
+    <div class="tab-content nav-content" id="nav-tabContent">
+        <!-- Major -->
+        <div class="tab-pane fade show active" id="nav-major" role="tabpanel" aria-labelledby="nav-major-tab">
+            <!--Add Major-->
+            <form action="/admin/addMajor" method="POST" id="majorAdd">
+                <h4>Add Major</h4>
+                <div class="input-group mb-3 input-box">
+                    <input type="text" class="form-control" placeholder="Add new major" required
+                           aria-label="Recipient's username" aria-describedby="basic-addon2" th:field="${major.name}">
+                    <div class="input-group-append">
+                        <input value="Save" class="btn btn-success" type="submit">
+                    </div>
+                </div>
+            </form>
+
+            <!--Show all majors-->
+
+            <table class="table" id="tblMajor" th:fragment="tbMajor">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Major Name</th>
+                    <th scope="col">Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="major:${majors}">
+                    <td th:text="${major.id}">id</td>
+                    <td th:text="${major.name}">title</td>
+                    <td>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#majorModal"
+                                onclick="updateMajor(this)" id="btnUpdateMajor">
+                            Edit
+                        </button>
+
+                            <button
+                                    th:class="${major.id}==1 OR ${major.id}==2 OR ${major.id}==3?'btn btn-danger disabled':'btn btn-danger'"
+                                    th:id="${major.id}==1 OR ${major.id}==2 OR ${major.id}==3?'btnMajorRemove disabled':'btnMajorRemove' "
+                                    th:data-href="@{/admin/deleteMajor/{id}(id=${major.id})}">Remove</button>
+
+
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="modal" id="majorModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Major</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- Modal body -->
+                        <form action="/admin/updateMajor" method="POST" id="updateMajor">
+                            <div class="modal-body" id="modalText">
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" th:field="${major.id}">
+                                        <input type="text" class="form-control" required placeholder="Update major"
+                                               aria-label="Recipient's username" aria-describedby="basic-addon2"
+                                               id="txtUpdateMajor"
+                                               th:field="${major.name}">
+                                    </div>
+
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <input value="Update" class="btn btn-success" type="submit" onclick="">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--END Major Tab-------------------------------------------------------------------------------------------------------->
+
+
+        <!-- Sub-Major -->
+        <div class="tab-pane fade" id="nav-sub-major" role="tabpanel" aria-labelledby="nav-sub-major-tab">
+            <h4>Add Sub-Major</h4>
+
+            <form class="input-group mb-3 input-box" id="subMajorAdd" method="POST" action="/admin/subMajorForm">
+                <select class="combobox comboMajorId" id="majorId" th:fragment="fragmentComboMajor">
+                    <option th:value="0" disabled selected>Choose Major</option>
+                    <option th:each="major:${majors}" th:value="${major.id}" th:text="${major.name}"></option>
+                </select>
+                <input type="text" class="form-control" required placeholder="Add new sub-major"
+                       aria-label="Recipient's username"
+                       aria-describedby="basic-addon2" id="subMajorName">
+                <div class="input-group-append">
+                    <input value="Save" class="btn btn-success" type="submit">
+                </div>
+            </form>
+
+            <!--Sub-Major List. Show as a table-->
+
+            <table class="table" th:fragment="tblSubMajor" id="tblSubMajor">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Sub-Major Name</th>
+                    <th scope="col">Major</th>
+                    <th scope="col">Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="subMajor:${subMajors}">
+                    <td th:text="${subMajor.id}">ID</td>
+                    <td th:text="${subMajor.name}">Sub-major</td>
+                    <td th:text="${subMajor.major.name}" th:data-major-id="${subMajor.major.id}">Major</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="updateSubMajor(this)"
+                                data-toggle="modal" data-target="#subMajorModal">
+                            Edit
+                        </button>
+                        <button class="btn btn-danger" th:data-href="@{/admin/deleteSubMajor/{id}(id=${subMajor.id})}"
+                           id="btnRemoveSubMajor">Remove</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--SubMajor Modal update-->
+            <div class="modal" id="subMajorModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Update Major</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <!-- Modal body -->
+                        <form class="input-group mb-3" id="subMajorUpdate" method="POST" action="/admin/updateSubMajor">
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <input type="hidden" th:field="${subMajor.id}" id="updateSubMajorId">
+                                    <select class="combobox comboMajorId" id="comboMajorId">
+                                        <option th:value="0" disabled selected>Choose Major</option>
+                                        <option th:each="major:${majors}" th:value="${major.id}"
+                                                th:text="${major.name}"></option>
+                                    </select>
+                                    <input type="text" class="form-control" placeholder="Add new major"
+                                           aria-label="Recipient's username" required
+                                           aria-describedby="basic-addon2" id="txtUpdateSubMajor">
+                                </div>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <input value="Update" class="btn btn-success" type="submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--END Sub-Major Tab------------------------------------------------------------------------------------------->
+
+        <!--Subject -->
+        <div class="tab-pane fade" id="nav-subject" role="tabpanel" aria-labelledby="nav-subject-tab">
+            <h4>Add Subject</h4>
+
+            <form action="/admin/subjectForm" method="POST" id="subjectAdd">
+                <div class="input-group mb-3 input-box">
+                    <select class="combobox comboSubMajor" ​ id="subMajorId" th:fragment="fragmentComboSubMajor">
+                        <option th:value="0" disabled selected>Choose Sub-major</option>
+                        <option th:each="subMajor:${subMajors}" th:value="${subMajor.id}" th:text="${subMajor.name}">
+                            Sub-Major
+                        </option>
+                    </select>
+                    <input type="text" th:field="${subject.name}" class="form-control" required
+                           placeholder="Add new subject" aria-label="Recipient's username"
+                           aria-describedby="basic-addon2" id="subjectName">
+                    <div class="input-group-append">
+                        <input class="btn btn-success" type="submit" value="Save">
+                    </div>
+                </div>
+            </form>
+
+            <table class="table" th:fragment="tblSubject" id="tblSubject">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Sub-major</th>
+                    <th scope="col">Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="subject : ${subjects}" th:object="${subject}">
+                    <td th:text="*{id}">id</td>
+                    <td th:text="*{name}">HTML</td>
+                    <td th:text="*{subMajor.name}">sub-major</td>
+                    <td>
+                        <button class="btnEdit btn btn-primary btnUpdate" data-toggle="modal"
+                                data-target="#subjectModal" onclick="updateSubject(this)">Edit
+                        </button>
+                        <button class="btn btn-danger" id="btnRemoveSubject"
+                           th:data-href="@{/admin/deleteSubject/{id}(id=*{id})}">Remove</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal for update Subject-->
+        <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Update Subject</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times</span>
+                        </button>
+                    </div>
+                    <form action="/admin/updateSubject" method="POST" id="subjectUpdate">
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <!--<input type="hidden">-->
+                                <input type="hidden" th:field="${subject.id}">
+
+                                <select class="combobox comboSubMajor" id="comboSubMajorId">
+                                    <option value="0" disabled selected>Choose Sub-major</option>
+                                    <option th:each="subMajor:${subMajors}" th:value="${subMajor.id}"
+                                            th:text="${subMajor.name}">
+                                        Sub-Major
+                                    </option>
+                                </select>
+                                <input type="text" required th:field="${subject.name}" class="form-control txtSubject"
+                                       placeholder="Update subject" aria-label="Recipient's username"
+                                       aria-describedby="basic-addon2" id="txtUpdateSubject">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Update">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- End add Subject -------------------------------------------------------------------------------------------->
+    </div>
+</div>
+<th:block layout:fragment="customScript">
+</th:block>
+
+</body>
+
+</html>

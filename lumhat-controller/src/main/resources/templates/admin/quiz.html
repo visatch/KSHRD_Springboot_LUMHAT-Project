@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/admin_layout/default_layout">
+
+<head>
+    <title>Online Quiz</title>
+    <link rel="stylesheet" href="/css/admin-quiz.css">
+</head>
+<body>
+<!--NAVBAR-->
+<div class="page">
+    <div class="content-page" layout:fragment="content-page">
+        <!-- Quiz Tab List -->
+        <nav class="nav-container">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-question-tab" data-toggle="tab" href="#nav-question"
+                   role="tab" aria-controls="nav-question"
+                   aria-selected="true">Question</a>
+                <a class="nav-item nav-link" id="nav-update-delete-tab" data-toggle="tab" href="#nav-update-delete"
+                   role="tab" aria-controls="nav-update-delete"
+                   aria-selected="false">View All Quizzes</a>
+            </div>
+        </nav>
+
+        <!-- Tab Content -->
+        <div class="tab-content nav-content" id="nav-tabContent">
+            <!-- Add Question Tab -->
+            <div class="tab-pane fade show active" id="nav-question" role="tabpanel" aria-labelledby="nav-question-tab">
+                <form id="form-add-question" method="POST" action="/admin/add-question">
+                    <h4>Add Questions</h4>
+                    <div class="input-group mb-3">
+                        <select class="combobox select-option select-sub-major required" id="select-sub-major">
+                            <option disabled selected>Select Sub-Major</option>
+                            <div th:each="major :${majors}">
+                                <div th:each="subMajor :${major.getSubMajors()}">
+                                    <option th:value="${subMajor.id}" th:text="${subMajor.name}"></option>
+                                </div>
+                            </div>
+                        </select>
+                        <select class="combobox select-option select-subject" required id="select-subject">
+                            <option disabled selected>Select Subject</option>
+                            <div>
+
+                            </div>
+                        </select>
+                        <select class="combobox select-option" id="quiz-level" required>
+                            <option disabled selected>Level</option>
+                            <option value="1">Basic</option>
+                            <option value="2">Medium</option>
+                            <option value="3">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Quiz Title" class="select-option" id="quiz-title" required>
+                        <select class="combobox" required id="quiz-duration">
+                            <option disabled selected>Duration</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="60">60</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-instruction">Instruction</label>
+                        <textarea class="form-control" id="question-instruction" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="question-input">Question</label>
+                        <textarea class="form-control" id="question-input" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer-option1">Answer 1</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="answer-option1"
+                                   placeholder="Your answer here" required>
+                            <div class="input-group-text input-group-append">
+
+                                <input type="checkbox" aria-label="Checkbox for following text input" id="answer-iscorrect1" class="correctAnswerCheckbox"> correct
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="answer-option2">Answer 2</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="answer-option2"
+                                   placeholder="Your answer here" required>
+                            <div class="input-group-text input-group-append">
+
+                                <input type="checkbox" aria-label="Checkbox for following text input" id="answer-iscorrect2" class="correctAnswerCheckbox"> correct
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="answer-option3">Answer 3</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="answer-option3"
+                                   placeholder="Your answer here">
+                            <div class="input-group-text input-group-append">
+                                <input type="checkbox" aria-label="Checkbox for following text input" id="answer-iscorrect3" class="correctAnswerCheckbox"> correct
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="answer-option4">Answer 4</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="answer-option4"
+                                   placeholder="Your answer here">
+                            <div class="input-group-text input-group-append">
+                                <input type="checkbox" aria-label="Checkbox for following text input" id="answer-iscorrect4" class="correctAnswerCheckbox"> correct
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-container">
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" class="btn btn-info quiz-button" value="Add" id="btnAdd">
+                                <input type="button" class="btn btn-danger quiz-button" data-toggle="modal" data-target="#myModal" onclick="viewQuestions()" value="Questions">
+                                <label>Question Added :
+                                    <span id="question-count">0</span>
+                                </label>
+                            </div>
+                            <div class="col button-save">
+                                <input type="button" class="btn btn-success quiz-button" value="Save" onclick="saveQuestionsToDatabase()">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="checking" style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: transparent;z-index: 99;">
+                        <div class="text" style="position: absolute;top: 45%;left: 0;height: 100%;width: 100%;font-size: 18px;text-align: center;">
+                            <center><img src="/img/Preloader_2.gif" alt="Loading"></center>
+                            Adding Please Wait! <Br>Meanwhile Please <b style="color: red;">BE ONLINE</b>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Update and delete Tab -->
+            <div class="tab-pane fade show" id="nav-update-delete" role="tabpanel"
+                 aria-labelledby="nav-update-delete-tab">
+                <form action="">
+                    <h4>Please Choose</h4>
+                    <div class="input-group mb-3">
+                        <select class="combobox select-option view-quiz-select-sub-major" id="select-subject-add-question">
+                            <option value="PA" disabled selected>Select Sub-major</option>
+                            <div th:each="major :${majors}">
+                                <div th:each="subMajor :${major.getSubMajors()}">
+                                    <optgroup th:label="${subMajor.name}">
+                                    <div th:each="subjects :${subMajor.getSubjects()}">
+                                        <option th:value="${subjects.id}" th:text="${subjects.name}"></option>
+                                    </div>
+                                    </optgroup>
+                                </div>
+                            </div>
+                        </select>
+                        <select class="combobox select-option" onchange="viewQuiz(this)">
+                            <option id="select-quiz" disabled selected>Select Quiz</option>
+                            <optgroup id="basic-quiz" label="Basic">
+
+                            </optgroup>
+                            <optgroup id="meduim-quiz" label="Meduim">
+
+                            </optgroup>
+                            <optgroup id="advanced-quiz" label="Advanced">
+
+                            </optgroup>
+                        </select>
+                        <br>
+                        <div id="viewQuiz" class="col-md-12" th:fragment="viewQuiz">
+
+                            <div th:if="${!instructions.isEmpty()}">
+                                <p></p>
+                                <h2 class="text-center">Quiz <span th:text="${quizView.title}"></span></h2>
+                                <div class="col-md-10" id="btn-quiz-container">
+                                    <button type="button" class="btn btn-danger btn-view" th:id="btnDel-quiz+${quizView.id}" onclick="deleteQuizByID(this)">Delete Quiz</button>
+                                    <button type="button" class="btn btn-success btn-view" data-toggle="modal" data-target="#insertQuestionModal" onclick="clearInsertQuestionForm()">New Question</button>
+                                </div>
+                                <br>
+                                <div th:each="instruction :${instructions}">
+                                    <div class="col-md-12">
+                                        <h5 class="instruction-title" th:id="instruction+${instruction.id}" th:text="${instruction.title}"></h5>
+                                        <hr>
+                                        <div class="col-md-12 questions-view-container" th:each="question :${instruction.questions}">
+                                            <div class="question-view-container col-md-12">
+                                                <div class="col-md-9" th:id="container-qus+${question.id}">
+                                                    <p th:id="qus+${question.id}" th:text="${question.title}" class="question-view"></p>
+                                                    <div class="col-md-12 answer-view-container" th:each="answer:${question.answers}">
+                                                        <div class="col-md-1 form-group">
+                                                            <!--<input type="checkbox" disabled name="mycheckbox" th:checked="${answer.isCorrect()}">-->
+                                                            <label class="container">
+                                                                <input th:id="checkbox-ans+${answer.id}+-qus+${question.id}" type="checkbox" disabled th:checked="${answer.isCorrect()}">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <p th:text="${answer.option}" th:id="qus+${question.id}+-ans+${answer.id}"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="btns-view-container col-md-3">
+                                                    <!--<a class="btn btn-default" th:href="@{'/admin/quiz/view-quiz/delete-question/'+${quizView.id}+'/'+${question.id}}" th:id="btnDel-ins+${instruction.id}+-qus+${question.id}" onclick='deleteQuestionByID(this)'>Delete</a>-->
+                                                    <button type="button" class="btn btn-danger" th:id="${quizView.id}+btnDel-ins+${instruction.id}+-qus+${question.id}" onclick='deleteQuestionByID(this)'>Delete</button>
+                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateQuestionModal" th:id="btnUpdate-ins+${instruction.id}+-qus+${question.id}" onclick="updateQuizView(this)">Update</button>
+                                                </div>
+                                                <br>
+                                            </div>
+                                            <hr>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${instructions.isEmpty()}">
+                            </div>
+                            <!--<p th:text="${objectFragment}"></p>-->
+                        </div>
+                    </div>
+                    <div id="checkingViewQuiz" style="display:none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: transparent;z-index: 99;">
+                        <div class="text" style="position: absolute;top: 45%;left: 0;height: 100%;width: 100%;font-size: 18px;text-align: center;">
+                            <center><img src="/img/Preloader_2.gif" alt="Loading"></center>
+                            Loading Please Wait! <Br>Meanwhile Please <b style="color: red;">BE ONLINE</b>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Questions View Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-success myModal" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead text-center">Questions</p>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body">
+                        <div id="questions-update-delete">
+                            <div class="question-update-delete">
+                                <p id="instruction ins0" class="text-left">Instruction</p>
+                                <div class="question-by-instruction">
+                                    <div class="questions-container" id="question-number">
+                                        <div class="question-container">
+                                            <p id="question qus0"><span>1. </span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum enim est excepturi iure magnam molestiae porro quisquam quo! Aliquid aperiam beatae commodi est fuga fugiat, impedit natus nostrum nulla veritatis.</p>
+                                        </div>
+                                        <div class="btn-modal-container">
+                                            <button class="btn-danger">Delete</button>
+                                            <button class="btn-default">Update</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Footer-->
+                    <div class="modal-footer justify-content-center">
+                        <a type="button" class="btn btn-outline-success waves-effect" data-dismiss="modal">Okay</a>
+                    </div>
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Questions View Modal -->
+
+        <!-- Questions Update Modal -->
+        <div class="modal fade text-center" id="updateQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-success myModal" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead text-center">Update Question</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body text-left" id="question-update-modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="question-update-input">Question</label>
+                                <textarea class="form-control" id="question-update-input" rows="3" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="answer-update-option1">Answer 1</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-update-option1"
+                                           placeholder="Your answer here" required>
+                                    <div class="input-group-text input-group-append">
+
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-update-iscorrect1" class="correctAnswerCheckbox">
+                                        <label for="answer-update-iscorrect1">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="answer-update-option2">Answer 2</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-update-option2"
+                                           placeholder="Your answer here" required>
+                                    <div class="input-group-text input-group-append">
+
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-update-iscorrect2" class="correctAnswerCheckbox">
+                                        <label for="answer-update-iscorrect2">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="answer-update-option3">Answer 3</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-update-option3"
+                                           placeholder="Your answer here">
+                                    <div class="input-group-text input-group-append">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-update-iscorrect3" class="correctAnswerCheckbox">
+                                        <label for="answer-update-iscorrect3">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="answer-update-option4">Answer 4</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-update-option4"
+                                           placeholder="Your answer here">
+                                    <div class="input-group-text input-group-append">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-update-iscorrect4" class="correctAnswerCheckbox">
+                                        <label for="answer-update-iscorrect4">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="buttion" onclick="updateQU" class="btn btn-default">Save</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Questions Update Modal -->
+
+        <!-- Questions Insert Modal -->
+        <div class="modal fade text-center" id="insertQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-notify modal-success myModal" role="document">
+                <!--Content-->
+                <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                        <p class="heading lead text-center">Update Question</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="white-text">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Body-->
+                    <div class="modal-body text-left" id="question-insert-modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="instruction-insert">Instruction</label>
+                                <select class="form-control" name="instruction-insert" id="instruction-insert">
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="question-insert-input">Question</label>
+                                <textarea class="form-control" id="question-insert-input" rows="3" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="answer-insert-option1">Answer 1</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-insert-option1"
+                                           placeholder="Your answer here" required>
+                                    <div class="input-group-text input-group-append">
+
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-insert-iscorrect1" class="correctAnswerCheckbox">
+                                        <label for="answer-insert-iscorrect1">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="answer-insert-option2">Answer 2</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-insert-option2"
+                                           placeholder="Your answer here" required>
+                                    <div class="input-group-text input-group-append">
+
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-insert-iscorrect2" class="correctAnswerCheckbox">
+                                        <label for="answer-insert-iscorrect2">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="answer-insert-option3">Answer 3</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-insert-option3"
+                                           placeholder="Your answer here">
+                                    <div class="input-group-text input-group-append">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-insert-iscorrect3" class="correctAnswerCheckbox">
+                                        <label for="answer-insert-iscorrect3">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="answer-insert-option4">Answer 4</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="answer-insert-option4"
+                                           placeholder="Your answer here">
+                                    <div class="input-group-text input-group-append">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" id="answer-insert-iscorrect4" class="correctAnswerCheckbox">
+                                        <label for="answer-insert-iscorrect4">correct</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type='button' class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                <button type='button' onclick='insertQuestion()' class="btn btn-success" data-dismiss="modal">Save</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!--/.Content-->
+            </div>
+        </div>
+        <!-- Questions Insert Modal -->
+
+    </div>
+</div>
+<th:block layout:fragment="customScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        // get majors and sub-majors
+        var major = /*[[${majors}]]*/ 'default';
+
+        /*]]>*/
+    </script>
+    <script src="/js/admin/admin-quiz.js"></script>
+    <script src="/js/admin/CRUDQuiz.js"></script>
+</th:block>
+
+</body>
+
+</html>

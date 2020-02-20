@@ -1,0 +1,113 @@
+body{
+    background-color: #eeeeee;
+    font-size: 16px;
+    /*font-family: 'Open Sans', sans-serif;*/
+    font-family: 'Hanuman', sans-serif;
+
+}
+
+.h3{
+    text-shadow: 1px 1px 10px #000000;
+}
+.view{
+    padding-top: 5px!important;
+    border: #D7D6E6 !important;
+    background-color: #EBEBEB !important;
+}
+
+
+.h2{
+    color: #FFFFFF;
+    font-size: 22px;
+    padding-top: 4px;
+}
+#title1 ,#title2 ,#title3 {
+    border-radius: 10px !important;
+    margin-top: 70px;
+}
+
+.address{
+    width:100% !important;
+    height: 100% !important;
+}
+.contactUs{
+    display: flex;
+    flex-direction: row;
+    text-align: left !important;
+}
+
+/* style Symbols for contact Us block */
+.pStyle{
+    margin-left: 50px !important;
+}
+.headoffice, .contact, .email{
+    margin-left: 10px !important;
+}
+.h4{
+    font-weight: bolder !important;
+    font-size: 18px;
+}
+/* style for email block */
+#fa{
+
+    font-size: 30px;
+    color: #5C18C7;
+}
+#fa1{
+
+    font-size: 12px;
+    color: #5C18C7;
+}
+#a{
+    color: rgb(0, 0, 0);
+}
+/* change prevoius and next button */
+.fa-chevron-left, .fa-chevron-right{
+    color: rgb(162, 162, 231);
+
+}
+p{
+    font-size: 15px !important;
+}
+ .h4{
+     font-size: 16px;
+     font-weight: normal !important;
+ }
+
+.card .card-body .card-text {
+    font-size: 15px !important;
+    line-height: 1.8;
+}
+/* Responsive Screen */
+@media screen and (max-width: 768px) {
+    .contactUs{
+        display: flex;
+        flex-direction:  column;
+    }
+    .card.card-cascade.narrower .view {
+        height: 40px !important;
+
+    }
+    .view1{
+        margin-top: 30px!important;
+    }
+    .card{
+        word-wrap: normal !important;
+    }
+    .h2{
+        padding: 3px 0px !important;
+
+    }
+}
+
+img.footer-img {
+    background-color: #EEEEEE;
+}
+
+.view.view-cascade {
+    background: #27989f !important;
+}
+@media (max-width: 991px){
+header {
+    margin-bottom: 0 !important;
+}}

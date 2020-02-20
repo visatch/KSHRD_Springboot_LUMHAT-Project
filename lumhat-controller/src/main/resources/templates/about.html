@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/sub_layout">
+
+<head>
+
+    <title>ABOUT</title>
+        <link rel="stylesheet" href="css/about.css">
+        <link href="https://fonts.googleapis.com/css?family=Khmer" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Start your project here-->
+<div class="content" layout:fragment="content">
+
+        <!--Carousel Wrapper-->
+        <div id="carousel-example-2" class=" banner-slide carousel slide carousel-fade" data-ride="carousel">
+        <!--Indicators-->
+        <ol class="carousel-indicators">
+                <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-2" data-slide-to="1"></li>
+                <li data-target="#carousel-example-2" data-slide-to="2"></li>
+                <li data-target="#carousel-example-2" data-slide-to="3"></li>
+
+        </ol>
+        <!--/.Indicators-->
+        <!--Slides-->
+                <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active">
+                                <div class="view">
+                                        <img class="d-block w-100" src="img/banner/banner1.jpg" alt="First slide">
+                                        <!-- <div class="mask rgba-black-slight"></div> -->
+                                </div>
+                                <div class="carousel-caption">
+                                        <h3 class="h3-responsive h3">Korea Software HRD Center</h3>
+                                </div>
+
+                        </div>
+                        <div class="carousel-item">
+                                <!--Mask color-->
+                                <div class="view">
+                                        <img class="d-block w-100" src="img/banner/banner2.jpg" alt="Second slide">
+                                        <!-- <div class="mask rgba-black-slight"></div> -->
+                                </div>
+                                <div class="carousel-caption">
+                                        <h3 class="h3-responsive h3">Korea Software HRD Center</h3>
+
+                                </div>
+                        </div>
+                        <div class="carousel-item">
+                                <!--Mask color-->
+                                <div class="view">
+                                        <img class="d-block w-100" src="img/banner/banner3.jpg" alt="Third slide">
+                                        <!-- <div class="mask rgba-black-slight"></div> -->
+                                </div>
+                                <div class="carousel-caption">
+                                        <h3 class="h3-responsive h3">Korea Software HRD Center</h3>
+
+                                </div>
+                        </div>
+                        <div class="carousel-item">
+                                <!--Mask color-->
+                                <div class="view">
+                                        <img class="d-block w-100" src="img/banner/banner4.png" alt="Third slide">
+                                        <!-- <div class="mask rgba-black-slight"></div> -->
+                                </div>
+                                <div class="carousel-caption">
+                                        <h3 class="h3-responsive h3">Korea Software HRD Center</h3>
+
+                                </div>
+                        </div>
+                </div>
+        <!--/.Slides-->
+
+        <!--Controls-->
+                <a class="carousel-control-prev " href="#carousel-example-2" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon fa fa-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon fa fa-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                </a>
+                <!--/.Controls-->
+        </div>
+
+        <!--/.Carousel Wrapper-->
+
+        <div class="container">
+                <div class="card card-cascade narrower " id="title1">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade view1">
+                                <h2 class="h2 text-center"><span th:text="#{about-us}"></span></h2>
+                        </div>
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-justify">
+
+                                <!-- Text -->
+                                <p class="card-text"><span th:text="#{about-us-content}"></span>
+                                </p>
+                        </div>
+                </div>
+
+                <!-- Tag Vision  -->
+                <div class="card card-cascade narrower" id="title2">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade view2">
+                                <h2 class=" h2 text-center"><span th:text="#{vision}"></span></h2>
+                        </div>
+                        <!-- Card content -->
+                        <div class="card-body card-body-cascade text-justify">
+                                <!-- Text -->
+                                <p class="card-text">
+                                        <span th:text="#{vision-content}" ></span>
+                                </p>
+                        </div>
+                </div>
+
+                <!-- Contact Us -->
+                <div class="card card-cascade narrower " id="title3">
+                        <!-- Card image -->
+                        <div class="view view-cascade view3">
+                                <h2 class=" h2 text-center"><span th:text="#{contact}"></span></h2>
+                        </div>
+
+                        <!-- Card content -->
+                        <div class="row">
+                                <div class="col-sm-6">
+                                        <div class="card-body card-body-cascade address">
+                                                <!-- Text -->
+                                                <div class="headoffice">
+                                                        <h4 class="h4">
+                                                                <i class="fa fa-institution mr-3" aria-hidden="true"></i><span th:text="#{head-office}"></span>
+                                                        </h4>
+                                                        <p class="pStyle">
+                                                                <span th:text="#{head-office-address}"></span>
+                                                        </p>
+
+                                                </div>
+
+                                                <div class="contact">
+                                                        <h4 class="h4">
+                                                                <i class="fa fa-volume-control-phone mr-3" aria-hidden="true"></i>
+                                                                <span th:text="#{contact-number}"></span>
+                                                        </h4>
+                                                        <p class="pStyle">
+                                                                - (855) 23 99 13 14
+                                                                <br> - (855) 77 771 236 (<span th:text="#{khmer}"></span>, English)
+                                                                <br> - (855) 15 455 552 (<span th:text="#{khmer}"></span>, English)
+                                                                <br> - (855) 17 528 169 (Korean, English)
+                                                                <br>
+                                                        </p>
+                                                </div>
+
+                                                <div class="email">
+                                                        <h4 class="h4">
+                                                                <i class="fa fa-envelope-o mr-3" aria-hidden="true"></i>
+                                                                <span th:text="#{emails}"></span>
+                                                        </h4>
+                                                        <p class="pStyle">
+                                                                <a href="mailto:info.kshrd@gmail.com" id="a" target="_blank">
+                                                                        <i class="fa fa-send mr-3" aria-hidden="true"></i> info.kshrd@gmail.com</a>
+                                                                <br>
+
+                                                        </p>
+                                                </div>
+
+                                        </div>
+                                </div>
+                                <div class="col-sm-6">
+                                        <div class="card-body card-body-cascade">
+
+                                                <!-- map of KSHRD -->
+
+                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.6662557351297!2d104.88697294985705!3d11.575765991741823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109519cfc0bdfb1%3A0x2c2974b77cdaff4b!2sKorea+Software+HRD+Center!5e0!3m2!1sen!2skh!4v1481431117466"
+                                                        width="100%" height="340px"></iframe>
+
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </div>
+
+</div>
+<!-- End your project here-->
+<th:block layout:fragment="script">
+    <!--import your script here-->
+
+
+</th:block>
+
+</body>
+</html>
+
+
